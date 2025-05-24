@@ -14,12 +14,12 @@ const InputWithLabel = ({label, description, type}: Props) => {
   return (
     <div className="w-full max-w-md px-4">
       <Field>
-        <Label className="text-sm/6 font-medium text-zinc-900">{label}</Label>
+        <Label className="block text-sm/6 font-medium text-zinc-900 mt-3">{label}</Label>
         <Description className="text-sm/6 text-gray-500">{description}</Description>
         <Input
           type={type}
           className={clsx(
-            'mt-3 block w-full rounded-lg border-none bg-white px-3 py-1.5 text-sm/6 text-gray-500',
+            'mt-1 block w-full rounded-lg border-none bg-white px-3 py-1.5 text-sm/6 text-gray-500',
             'focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25'
           )}
         />
