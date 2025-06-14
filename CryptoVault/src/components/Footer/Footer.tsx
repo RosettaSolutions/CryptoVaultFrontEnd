@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="w-full h-fit bg-gray-700 p-6 flex items-center justify-center flex-col text-gray-50 font-mono shadow-md">
+    <footer className="w-full h-fit bg-gray-700 p-6 flex items-center justify-center flex-col text-gray-50 font-mono shadow-md mt-7">
       <div>
         <img src={LogoRosetta} alt="" className="w-16 h-16 text-sky-400" />
       </div>
@@ -30,7 +30,7 @@ const Footer = () => {
       </div>
       <div>
         <span className="text-gray-500 text-sm font-thin">
-          Developed by Rosetta ©
+          © 2025 Developed by Rosetta. All rights reserved.
         </span>
       </div>
     </footer>
