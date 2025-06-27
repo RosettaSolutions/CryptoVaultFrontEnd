@@ -3,8 +3,33 @@ import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { MdSimCardDownload } from "react-icons/md";
 import { MdDeleteForever } from "react-icons/md";
 import { GiCubes } from "react-icons/gi";
+import { useDeleteFile } from "../../hooks/useDeleteFile";
+import { useDownloadEncryptedFile } from "../../hooks/useDownloadEncryptedFile";
+// import { useGetFilesList } from "../../hooks/useGetFilesList";
 
-const DropdownButton = () => {
+interface Props {
+  fileId: number;
+  refetch: () => void;
+}
+
+const DropdownButton = ({ fileId, refetch }: Props) => {
+  const { deleteEncryptedFile, loading } = useDeleteFile();
+  const { downloadEncryptedFile } = useDownloadEncryptedFile();
+
+  const handleDeleteFile = async () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this file?"
+    );
+    if (confirmed) {
+      await deleteEncryptedFile(fileId);
+      refetch();
+    }
+  };
+
+  const handleDownloadEncryptedFile = async () => {
+    await downloadEncryptedFile(fileId);
+  };
+
   return (
     <div className="text-right">
       <Menu>
@@ -18,13 +43,20 @@ const DropdownButton = () => {
           className="w-54 origin-top-right rounded-xl border border-white/5 bg-gray-700 p-1 text-sm/6 text-gray-50 transition duration-100 ease-out [--anchor-gap:--spacing(1)] focus:outline-none data-closed:scale-95 data-closed:opacity-0"
         >
           <MenuItem>
-            <button className="cursor-pointer group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10">
+            <button
+              disabled={loading}
+              onClick={handleDeleteFile}
+              className="cursor-pointer group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10"
+            >
               Delete
               <MdDeleteForever className="ml-auto hidden group-data-focus:inline" />
             </button>
           </MenuItem>
           <MenuItem>
-            <button className="cursor-pointer group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10">
+            <button
+              onClick={handleDownloadEncryptedFile}
+              className="cursor-pointer group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10"
+            >
               Download encripted file
               <MdSimCardDownload className="ml-auto hidden group-data-focus:inline" />
             </button>
