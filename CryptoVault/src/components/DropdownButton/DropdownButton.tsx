@@ -5,7 +5,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { GiCubes } from "react-icons/gi";
 import { useDeleteFile } from "../../hooks/useDeleteFile";
 import { useDownloadEncryptedFile } from "../../hooks/useDownloadEncryptedFile";
-// import { useGetFilesList } from "../../hooks/useGetFilesList";
+import { useSendFileToBlockchain } from "../../hooks/useSendFileToBlockchain";
 
 interface Props {
   fileId: number;
@@ -15,6 +15,7 @@ interface Props {
 const DropdownButton = ({ fileId, refetch }: Props) => {
   const { deleteEncryptedFile, loading } = useDeleteFile();
   const { downloadEncryptedFile } = useDownloadEncryptedFile();
+  const { sendToBlockchain, loadingSend } = useSendFileToBlockchain();
 
   const handleDeleteFile = async () => {
     const confirmed = window.confirm(
@@ -28,6 +29,11 @@ const DropdownButton = ({ fileId, refetch }: Props) => {
 
   const handleDownloadEncryptedFile = async () => {
     await downloadEncryptedFile(fileId);
+  };
+
+  const handleSendToBlockchain = async () => {
+    await sendToBlockchain(fileId);
+    refetch();
   };
 
   return (
@@ -62,7 +68,11 @@ const DropdownButton = ({ fileId, refetch }: Props) => {
             </button>
           </MenuItem>
           <MenuItem>
-            <button className="cursor-pointer group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10">
+            <button
+              disabled={loadingSend}
+              onClick={handleSendToBlockchain}
+              className="cursor-pointer group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10"
+            >
               Send to blockchain
               <GiCubes className="ml-auto hidden group-data-focus:inline" />
             </button>
