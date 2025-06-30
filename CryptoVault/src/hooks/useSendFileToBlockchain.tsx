@@ -2,6 +2,7 @@ import { sendFileToBlockchain } from "../services/sendFileToBlockchain";
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useMessage } from "../contexts/MessageContext";
+import axios from "axios";
 
 export function useSendFileToBlockchain() {
   const { accessToken } = useAuth();
@@ -17,25 +18,24 @@ export function useSendFileToBlockchain() {
     try {
       setLoadingSend(true);
       const res = await sendFileToBlockchain(accessToken, fileId);
-
       if (res.status == 201) {
         newMessage({
           messageType: "success",
           message: "File successfully deployed to the ethereum network.",
         });
-      } else if (res.status == 400) {
+      }
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.status === 409) {
         newMessage({
           messageType: "warning",
           message: "This file already has a record on the blockchain.",
         });
-      }
-    } catch (err) {
-      if (err instanceof Error) {
+      } else if (err instanceof Error) {
         setError(err);
       } else {
         setError(new Error("An unknown error occurred."));
       }
-      console.log(err)
+      // console.log(err);
     } finally {
       setLoadingSend(false);
     }
