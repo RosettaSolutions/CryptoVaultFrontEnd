@@ -1,11 +1,12 @@
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { HiOutlineDotsHorizontal } from "react-icons/hi";
-import { MdSimCardDownload } from "react-icons/md";
-import { MdDeleteForever } from "react-icons/md";
+import { useEffect } from "react";
 import { GiCubes } from "react-icons/gi";
+import { MdDeleteForever } from "react-icons/md";
+import { MdSimCardDownload } from "react-icons/md";
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { useDeleteFile } from "../../hooks/useDeleteFile";
-import { useDownloadEncryptedFile } from "../../hooks/useDownloadEncryptedFile";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { useSendFileToBlockchain } from "../../hooks/useSendFileToBlockchain";
+import { useDownloadEncryptedFile } from "../../hooks/useDownloadEncryptedFile";
 
 interface Props {
   fileId: number;
@@ -16,6 +17,19 @@ const DropdownButton = ({ fileId, refetch }: Props) => {
   const { deleteEncryptedFile, loading } = useDeleteFile();
   const { downloadEncryptedFile } = useDownloadEncryptedFile();
   const { sendToBlockchain, loadingSend } = useSendFileToBlockchain();
+
+  useEffect(() => {
+    // console.log(loadingSend)
+    if (loadingSend) {
+      document.body.style.cursor = "wait";
+    } else {
+      document.body.style.cursor = "default";
+    }
+
+    return () => {
+      document.body.style.cursor = "default";
+    };
+  }, [loadingSend]);
 
   const handleDeleteFile = async () => {
     const confirmed = window.confirm(
