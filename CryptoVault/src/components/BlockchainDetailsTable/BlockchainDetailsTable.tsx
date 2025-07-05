@@ -83,7 +83,7 @@ const BlockchainDetailsTable = ({ filesOnTheBlockchain, refetch }: Props) => {
                 ).toLocaleString("en-US")}
               </td>
               <td className="py-3 flex justify-center">
-                <BlockchainTableDropdownButton />
+                <BlockchainTableDropdownButton fileId={file.file_id} />
               </td>
             </tr>
           ))}

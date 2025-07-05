@@ -1,13 +1,20 @@
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { BsFillFileEarmarkBinaryFill } from "react-icons/bs";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { useGetAbiInJson } from "../../hooks/useGetAbiInJson";
 
 interface Props {
   fileId: number;
-  refetch: () => void;
+  // refetch: () => void;
 }
 
-const BlockchainTableDropdownButton = () => {
+const BlockchainTableDropdownButton = ({ fileId }: Props) => {
+  const { downloadAbiInJson } = useGetAbiInJson();
+
+  const handleDownloadAbiInJson = async () => {
+    await downloadAbiInJson(fileId);
+  };
+
   return (
     <div className="text-right">
       <Menu>
@@ -21,7 +28,10 @@ const BlockchainTableDropdownButton = () => {
           className="w-54 origin-top-right rounded-xl border border-white/5 bg-gray-700 p-1 text-sm/6 text-gray-50 transition duration-100 ease-out [--anchor-gap:--spacing(1)] focus:outline-none data-closed:scale-95 data-closed:opacity-0"
         >
           <MenuItem>
-            <button className="cursor-pointer group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10">
+            <button
+              className="cursor-pointer group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10"
+              onClick={handleDownloadAbiInJson}
+            >
               Download contract ABI
               <BsFillFileEarmarkBinaryFill className="ml-auto hidden group-data-focus:inline" />
             </button>
