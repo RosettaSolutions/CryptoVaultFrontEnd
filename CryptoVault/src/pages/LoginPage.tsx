@@ -39,16 +39,26 @@ const LoginPage = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-
-        <span className="text-sm mt-6">
-          Need an account ?{" "}
-          <Link
-            to="/register"
-            className="text-sm font-mono font-semibold text-sky-400 underline"
-          >
-            Sign up
-          </Link>
-        </span>
+        <div className="flex flex-col w-full px-4 align-middle items-center">
+          <span className="text-sm mt-6">
+            Need an account ?{" "}
+            <Link
+              to="/register"
+              className="text-sm font-mono font-semibold text-sky-400 underline"
+            >
+              Sign up
+            </Link>
+          </span>
+          <span className="text-sm mt-2">
+            Forgot your password ?{" "}
+            <Link
+              to="/forgot-password"
+              className="text-sm font-mono font-semibold text-sky-400 underline"
+            >
+              Reset password
+            </Link>
+          </span>
+        </div>
         <Button type="submit" className="submit-btn">
           Sign in
         </Button>
