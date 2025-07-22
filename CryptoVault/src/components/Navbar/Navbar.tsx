@@ -5,15 +5,19 @@ import { useNavigate } from "react-router-dom";
 import { FaFileShield } from "react-icons/fa6";
 import { FaFileCircleCheck } from "react-icons/fa6";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { FaKeycdn } from "react-icons/fa";
+import { FaMoneyCheckDollar } from "react-icons/fa6";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   return (
     <div className="text-right">
       <Menu>
         {({ open }) => (
-          <>
+          <div>
             <MenuButton className="inline-flex items-center gap-2 rounded-md text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none cursor-pointer">
               <label
                 className={"transition-transform duration-300 hover:scale-110"}
@@ -91,7 +95,30 @@ const Navbar = () => {
                 <button
                   className="cursor-pointer group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10"
                   onClick={() => {
+                    navigate("/decryption");
+                  }}
+                >
+                  Decryption
+                  <FaKeycdn className="ml-auto hidden group-data-focus:inline" />
+                </button>
+              </MenuItem>
+              <MenuItem>
+                <button
+                  className="cursor-pointer group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10"
+                  onClick={() => {
                     navigate("/logout");
+                  }}
+                >
+                  Billing
+                  <FaMoneyCheckDollar className="ml-auto hidden group-data-focus:inline" />
+                </button>
+              </MenuItem>
+              <MenuItem>
+                <button
+                  className="cursor-pointer group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10"
+                  onClick={() => {
+                    logout();
+                    navigate("/login");
                   }}
                 >
                   Logout
@@ -99,7 +126,7 @@ const Navbar = () => {
                 </button>
               </MenuItem>
             </MenuItems>
-          </>
+          </div>
         )}
       </Menu>
     </div>
