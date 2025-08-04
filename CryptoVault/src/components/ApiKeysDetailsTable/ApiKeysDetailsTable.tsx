@@ -1,39 +1,15 @@
 import { GrClose } from "react-icons/gr";
 import { FaCheck } from "react-icons/fa6";
 import { useMessage } from "../../contexts/MessageContext";
+import type { ApiKeysListResponse } from "../../types/ApiKeysListResponse";
 import ApiKeysTableDropdownButton from "../ApiKeysTableActionsButton/ApiKeysTableActionsButton";
-import BlockchainTableDropdownButton from "../BlockchainTableDropdownButton/BlockchainTableDropdownButton";
 
-const data = {
-  "Owner user": "Tester",
-  number_of_keys: 1,
-  keys: [
-    {
-      key_id: 1,
-      key: "888a6a06-4455-4139-8ec8-0856810ed961",
-      description:
-        "Pellentesque nec turpis ante. Donec maximus leo vulputate arcu rutrum malesuada. Nulla venenatis urna at metus iaculis, gravida blandit sapien tempor. Nullam id vulputate nisi, a maximus magna. Curabitur hendrerit lectus lorem, eget sodales erat aliquet nec. Praesent tempus fringilla congue. Fusce dictum nisl nunc, at luctus elit suscipit eu. Proin neque urna, volutpat quis facilisis quis, hendrerit vitae tellus.",
-      created_at: "2025-07-04T22:54:29.540023Z",
-      is_active: true,
-    },
-    {
-      key_id: 2,
-      key: "888a6a06-4455-4139-8ec8-0856810ed962",
-      description: "De uso para o VitalGuard.",
-      created_at: "2025-07-04T22:54:29.540023Z",
-      is_active: false,
-    },
-    {
-      key_id: 3,
-      key: "888a6a06-4455-4139-8ec8-0856810ed963",
-      description: "",
-      created_at: "2025-07-04T22:54:29.540023Z",
-      is_active: true,
-    },
-  ],
+type Props = {
+  ApiKeysList: ApiKeysListResponse;
+  refetch: () => void;
 };
 
-const ApiKeysDetailsTable = () => {
+const ApiKeysDetailsTable = ({ ApiKeysList, refetch }: Props) => {
   const { newMessage } = useMessage();
 
   const handleCopyValue = (value: string, columnValue: string) => {
@@ -56,23 +32,23 @@ const ApiKeysDetailsTable = () => {
         </tr>
       </thead>
       <tbody className="divide-y divide-gray-200 font-sans font-extralight text-sm">
-        {data.keys.map((keys) => (
-          <tr className="text-center align-middle" key={keys.key_id}>
-            <td className="py-3">{keys.key_id}</td>
+        {ApiKeysList.keys.map((key) => (
+          <tr className="text-center align-middle" key={key.key_id}>
+            <td className="py-3">{key.key_id}</td>
             <td
               className="py-3 hover:cursor-copy"
               onClick={() => {
-                handleCopyValue(keys.key, "API Key");
+                handleCopyValue(key.key, "API Key");
               }}
             >
-              {keys.key}
+              {key.key}
             </td>
             <td className="py-3">
-              {new Date(keys.created_at).toLocaleString("en-US")}
+              {new Date(key.created_at).toLocaleString("en-US")}
             </td>
             <td className="py-3">
               <div className="flex justify-center">
-                {keys.is_active ? (
+                {key.is_active ? (
                   <FaCheck className="text-green-500" />
                 ) : (
                   <GrClose className="text-red-500" />
@@ -80,7 +56,10 @@ const ApiKeysDetailsTable = () => {
               </div>
             </td>
             <td className="py-3 flex justify-center">
-              <ApiKeysTableDropdownButton fileId={keys.key_id} />
+              <ApiKeysTableDropdownButton
+                keyId={key.key_id}
+                refetch={refetch}
+              />
             </td>
           </tr>
         ))}
