@@ -3,13 +3,17 @@ import LoginPage from "./pages/LoginPage";
 import FilesPage from "./pages/FilesPage";
 import AddFilePage from "./pages/AddFilePage";
 import RegisterPage from "./pages/RegisterPage";
-import ComponentTestPage from "./pages/ComponentTestPage";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./contexts/AuthContext";
-import { MessageProvider } from "./contexts/MessageContext";
 import Message from "./components/Message/Message";
-import BlockchainDetailsPage from "./pages/BlockchainDetailsPage";
 import ValidationPage from "./pages/ValidationPage";
+import DecryptionPage from "./pages/DecryptionPage";
+import { AuthProvider } from "./contexts/AuthContext";
+import { ProtectedRoute } from "./guards/protectedRoute";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import { MessageProvider } from "./contexts/MessageContext";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import BlockchainDetailsPage from "./pages/BlockchainDetailsPage";
+import ApiKeysPage from "./pages/ApiKeysPage";
 
 function App() {
   return (
@@ -18,13 +22,62 @@ function App() {
         <AuthProvider>
           <Message />
           <Routes>
-            <Route path="/files" element={<FilesPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/component_test" element={<ComponentTestPage />} />
-            <Route path="/add_file" element={<AddFilePage />} />
-            <Route path="/blockchain" element={<BlockchainDetailsPage />} />
-            <Route path="/validation" element={<ValidationPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route
+              path="/reset-password/:uid/:token"
+              element={<ResetPasswordPage />}
+            />
+
+            <Route
+              path="/files"
+              element={
+                <ProtectedRoute>
+                  <FilesPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/add_file"
+              element={
+                <ProtectedRoute>
+                  <AddFilePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/blockchain"
+              element={
+                <ProtectedRoute>
+                  <BlockchainDetailsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/validation"
+              element={
+                <ProtectedRoute>
+                  <ValidationPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/decryption"
+              element={
+                <ProtectedRoute>
+                  <DecryptionPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/api_keys"
+              element={
+                <ProtectedRoute>
+                  <ApiKeysPage />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </AuthProvider>
       </MessageProvider>
