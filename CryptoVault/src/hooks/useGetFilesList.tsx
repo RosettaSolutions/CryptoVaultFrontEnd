@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { fetchFilesList } from "../services/filesService";
 import type { EncryptedFilesList } from "../types/EncryptedFilesList";
@@ -9,28 +9,27 @@ export function useGetFilesList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const getFiles = async () => {
-      try {
-        if (!accessToken) throw new Error("Token not provided.");
+  const getFiles = useCallback(async () => {
+    try {
+      setLoading(true);
+      if (!accessToken) throw new Error("Token not provided.");
 
-        const res = await fetchFilesList(accessToken);
-        setFilesList(res.data);
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("Unknow error.");
-        }
-      } finally {
-        setLoading(false);
+      const res = await fetchFilesList(accessToken);
+      setFilesList(res.data);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Unknown error.");
       }
-    };
+    } finally {
+      setLoading(false);
+    }
+  }, [accessToken]);
 
+  useEffect(() => {
     getFiles();
-  }, [accessToken]); // Maybe add accessToken.
+  }, [getFiles]);
 
-  console.log(filesList);
-
-  return { filesList, loading, error };
+  return { filesList, loading, error, refetch: getFiles };
 }
