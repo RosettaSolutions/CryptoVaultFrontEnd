@@ -2,10 +2,9 @@ import { useEffect } from "react";
 import { FaPowerOff } from "react-icons/fa6";
 import { MdDeleteForever } from "react-icons/md";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
-import { useDeleteFile } from "../../hooks/useDeleteFile";
+import { useDeleteApiKey } from "../../hooks/useDeleteApiKey";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { useSendFileToBlockchain } from "../../hooks/useSendFileToBlockchain";
-import { useDownloadEncryptedFile } from "../../hooks/useDownloadEncryptedFile";
+import { useUpdateApiKeyStatus } from "../../hooks/useUpdateApiKeyStatus";
 
 interface Props {
   keyId: number;
@@ -13,13 +12,11 @@ interface Props {
 }
 
 const ApiKeysTableDropdownButton = ({ keyId, refetch }: Props) => {
-  const { deleteEncryptedFile, loading } = useDeleteFile();
-  const { downloadEncryptedFile } = useDownloadEncryptedFile();
-  const { sendToBlockchain, loadingSend } = useSendFileToBlockchain();
+  const { deleteKey, loadingDelete } = useDeleteApiKey();
+  const { updateStatus, loadingUpdateKey } = useUpdateApiKeyStatus();
 
   useEffect(() => {
-    // console.log(loadingSend)
-    if (loadingSend) {
+    if (loadingDelete || loadingUpdateKey) {
       document.body.style.cursor = "wait";
     } else {
       document.body.style.cursor = "default";
@@ -28,25 +25,21 @@ const ApiKeysTableDropdownButton = ({ keyId, refetch }: Props) => {
     return () => {
       document.body.style.cursor = "default";
     };
-  }, [loadingSend]);
+  }, [loadingDelete, loadingUpdateKey]);
 
-  const handleDeleteFile = async () => {
+  const handleDeleteApiKey = async () => {
     const confirmed = window.confirm(
       "Are you sure you want to delete this API Key?"
     );
     if (confirmed) {
-      await deleteEncryptedFile(keyId);
-      //   refetch();
+      await deleteKey(keyId);
+      refetch();
     }
   };
 
-  const handleDownloadEncryptedFile = async () => {
-    await downloadEncryptedFile(keyId);
-  };
-
-  const handleSendToBlockchain = async () => {
-    await sendToBlockchain(keyId);
-    // refetch();
+  const handleUpdateKeyStatus = async () => {
+    await updateStatus(keyId);
+    refetch();
   };
 
   return (
@@ -63,8 +56,8 @@ const ApiKeysTableDropdownButton = ({ keyId, refetch }: Props) => {
         >
           <MenuItem>
             <button
-              disabled={loading}
-              onClick={handleDeleteFile}
+              disabled={loadingUpdateKey}
+              onClick={handleUpdateKeyStatus}
               className="cursor-pointer group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10"
             >
               Enable / Disable
@@ -73,7 +66,8 @@ const ApiKeysTableDropdownButton = ({ keyId, refetch }: Props) => {
           </MenuItem>
           <MenuItem>
             <button
-              onClick={handleDownloadEncryptedFile}
+              disabled={loadingDelete}
+              onClick={handleDeleteApiKey}
               className="cursor-pointer group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10"
             >
               Delete
