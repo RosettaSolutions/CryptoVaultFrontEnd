@@ -1,5 +1,8 @@
 import clsx from "clsx";
+import { useState } from "react";
+import { FaEye } from "react-icons/fa";
 import type { ChangeEvent } from "react";
+import { FaEyeSlash } from "react-icons/fa";
 import { Description, Field, Input, Label } from "@headlessui/react";
 
 type Props = {
@@ -10,7 +13,15 @@ type Props = {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
-const InputWithLabel = ({ label, description, type, value, onChange }: Props) => {
+const InputWithLabel = ({
+  label,
+  description,
+  type,
+  value,
+  onChange,
+}: Props) => {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <div className="w-full max-w-md px-4">
       <Field>
@@ -20,23 +31,35 @@ const InputWithLabel = ({ label, description, type, value, onChange }: Props) =>
         <Description className="text-sm/6 text-gray-500">
           {description}
         </Description>
-        <Input
-          type={type}
-          value={value}
-          onChange={onChange}
-          className={clsx(
-            "mt-1 block w-full rounded-lg border-none bg-white px-3 py-1.5 text-sm/6 text-gray-500",
-            "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
+        <div className="relative flex mt-1 items-center rounded-lg border-none bg-white px-3 py-1.5 text-sm/6 text-gray-500">
+          <Input
+            type={showPassword ? "text" : type}
+            value={value}
+            onChange={onChange}
+            className={clsx(
+              "block w-full ",
+              "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
+            )}
+          />
+
+          {type === "password" && (
+            <button
+              type="button"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              onClick={() => setShowPassword(!showPassword)}
+              className="focus:outline-none"
+            >
+              {showPassword ? (
+                <FaEyeSlash className="cursor-pointer" />
+              ) : (
+                <FaEye className="cursor-pointer" />
+              )}
+            </button>
           )}
-        />
+        </div>
       </Field>
     </div>
   );
 };
 
 export default InputWithLabel;
-
-// <div className="flex align-middle justify-center items-center border-2 border-sky-400 rounded-md px-4 py-2 m-2">
-//   <input className="all-[unset]" placeholder={placeholder} type={type} />
-//   <MdEmail className="text-gray-400" />
-// </div>
