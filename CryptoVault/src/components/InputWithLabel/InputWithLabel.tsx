@@ -11,6 +11,7 @@ type Props = {
   type: string;
   value: string | number;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  autoComplete?: string;
 };
 
 const InputWithLabel = ({
@@ -19,6 +20,7 @@ const InputWithLabel = ({
   type,
   value,
   onChange,
+  autoComplete,
 }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -40,6 +42,7 @@ const InputWithLabel = ({
               "block w-full ",
               "focus:not-data-focus:outline-none data-focus:outline-2 data-focus:-outline-offset-2 data-focus:outline-white/25"
             )}
+            autoComplete={autoComplete}
           />
 
           {type === "password" && (
