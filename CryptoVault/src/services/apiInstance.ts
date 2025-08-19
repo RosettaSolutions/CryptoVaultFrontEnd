@@ -1,6 +1,12 @@
 import axios from "axios";
 import { refresh } from "./authService";
 
+const redirectToLogin = () => {
+  if (window.location.pathname !== "/login") {
+    window.location.href = "/login";
+  }
+};
+
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
@@ -23,7 +29,7 @@ api.interceptors.response.use(
       if (!refreshToken) {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
-        window.location.href = "/login";
+        redirectToLogin();
         return Promise.reject(error);
       }
 
@@ -35,7 +41,7 @@ api.interceptors.response.use(
       } catch (refreshError) {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
-        window.location.href = "/login";
+        redirectToLogin();
 
         return Promise.reject(refreshError);
       }
