@@ -13,7 +13,7 @@ type ErrorResponse = {
 export function useDecryptFile() {
   const [loading, setLoading] = useState(false);
   const { newMessage } = useMessage();
-  const { accessToken } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   const decrypt = async (
     file_id: number,
@@ -22,8 +22,8 @@ export function useDecryptFile() {
   ) => {
     try {
       setLoading(true);
-      if (!accessToken) throw new Error("Token not provided.");
-      const res = await decryptFile(accessToken, file, file_id, decryptionKey);
+      if (!isAuthenticated) throw new Error("Token not provided.");
+      const res = await decryptFile(file, file_id, decryptionKey);
 
       const fileName = getFileNameFromContentDisposition(
         res.headers["content-disposition"]

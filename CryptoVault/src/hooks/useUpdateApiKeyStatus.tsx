@@ -8,13 +8,13 @@ import { updateApiKeyStatus } from "../services/updateApiKeyStatus";
 export function useUpdateApiKeyStatus() {
   const [loadingUpdateKey, setLoadingUpdateKey] = useState(false);
   const { newMessage } = useMessage();
-  const { accessToken } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   const updateStatus = async (keyId: number) => {
     try {
       setLoadingUpdateKey(true);
-      if (!accessToken) throw new Error("Token not provided.");
-      const res = await updateApiKeyStatus(accessToken, keyId);
+      if (!isAuthenticated) throw new Error("Token not provided.");
+      const res = await updateApiKeyStatus(keyId);
       if (res.status == 200) {
         newMessage({
           messageType: "success",

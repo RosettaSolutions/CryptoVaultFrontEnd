@@ -14,13 +14,13 @@ export function useGetApiKeysList() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<ApiKeysListResponse | null>(null);
   const { newMessage } = useMessage();
-  const { accessToken } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   const getList = async () => {
     try {
       setLoading(true);
-      if (!accessToken) throw new Error("Token not provided.");
-      const response = await getApiKeysList(accessToken);
+      if (!isAuthenticated) throw new Error("Token not provided.");
+      const response = await getApiKeysList();
       setData(response.data);
       return response.data;
     } catch (err: unknown) {

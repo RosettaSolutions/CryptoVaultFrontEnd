@@ -12,13 +12,13 @@ type ErrorResponse = {
 export function useCreateApiKey() {
   const [loadingCreateKey, setLoadingCreateKey] = useState(false);
   const { newMessage } = useMessage();
-  const { accessToken } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   const createKey = async () => {
     try {
       setLoadingCreateKey(true);
-      if (!accessToken) throw new Error("Token not provided.");
-      const response = await createApiKey(accessToken);
+      if (!isAuthenticated) throw new Error("Token not provided.");
+      const response = await createApiKey();
       return response.data;
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {

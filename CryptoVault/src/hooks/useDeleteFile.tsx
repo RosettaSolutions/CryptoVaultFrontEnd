@@ -4,19 +4,19 @@ import { useState } from "react";
 import { useMessage } from "../contexts/MessageContext";
 
 export function useDeleteFile() {
-  const { accessToken } = useAuth();
+  const { isAuthenticated } = useAuth();
   const { newMessage } = useMessage();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
   const deleteEncryptedFile = async (fileId: number) => {
-    if (!accessToken) {
+    if (!isAuthenticated) {
       setError(new Error("Access Token not provided."));
       return;
     }
     try {
       setLoading(true);
-      const res = await deleteFile(accessToken, fileId);
+      const res = await deleteFile(fileId);
       if (res.status == 204) {
         newMessage({
           messageType: "success",

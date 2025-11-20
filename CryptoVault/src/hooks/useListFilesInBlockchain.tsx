@@ -4,7 +4,7 @@ import type { FilesOnTheBlockchain } from "../types/FilesOnTheBlockchain";
 import { listFilesInBlockchain } from "../services/listFilesInBlockchain";
 
 export function useListFilesInBlockchain() {
-  const { accessToken } = useAuth();
+  const { isAuthenticated } = useAuth();
   const [filesInBlockchainList, setFilesInBlockchainList] = useState<FilesOnTheBlockchain | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -12,9 +12,9 @@ export function useListFilesInBlockchain() {
   const getFilesInBlockchain = useCallback(async () => {
     try {
       setLoading(true);
-      if (!accessToken) throw new Error("Token not provided.");
+      if (!isAuthenticated) throw new Error("Token not provided.");
 
-      const res = await listFilesInBlockchain(accessToken);
+      const res = await listFilesInBlockchain();
       setFilesInBlockchainList(res.data);
     } catch (err) {
       if (err instanceof Error) {
@@ -25,7 +25,7 @@ export function useListFilesInBlockchain() {
     } finally {
       setLoading(false);
     }
-  }, [accessToken]);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     getFilesInBlockchain();

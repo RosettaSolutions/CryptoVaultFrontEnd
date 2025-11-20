@@ -4,19 +4,19 @@ import { useState } from "react";
 import { useMessage } from "../contexts/MessageContext";
 
 export function useGetAbiInJson() {
-  const { accessToken } = useAuth();
+  const { isAuthenticated } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const { newMessage } = useMessage();
 
   const downloadAbiInJson = async (fileId: number) => {
-    if (!accessToken) {
+    if (!isAuthenticated) {
       setError(new Error("Access Token not provided."));
       return;
     }
     try {
       setLoading(true);
-      const res = await getAbiInJson(accessToken, fileId);
+      const res = await getAbiInJson(fileId);
 
       const fileName = getFileNameFromContentDisposition(
         res.headers["content-disposition"]

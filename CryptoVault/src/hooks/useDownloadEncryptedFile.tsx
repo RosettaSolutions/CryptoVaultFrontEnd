@@ -3,19 +3,19 @@ import { useAuth } from "../contexts/AuthContext";
 import { useState } from "react";
 
 export function useDownloadEncryptedFile() {
-  const { accessToken } = useAuth();
+  const { isAuthenticated } = useAuth();
   const [loading, setLoading] = useState(false);
   //   const [responseData, setResponseData] = useState<File | null>(null);
   const [error, setError] = useState<Error | null>(null);
 
   const downloadEncryptedFile = async (fileId: number) => {
-    if (!accessToken) {
+    if (!isAuthenticated) {
       setError(new Error("Access Token not provided."));
       return;
     }
     try {
       setLoading(true);
-      const res = await getEncryptedFile(accessToken, fileId);
+      const res = await getEncryptedFile(fileId);
 
       const fileName = getFileNameFromContentDisposition(
         res.headers["content-disposition"]
@@ -23,7 +23,9 @@ export function useDownloadEncryptedFile() {
 
       console.log(res.headers);
 
-const url = window.URL.createObjectURL(new Blob([res.data], { type: "application/octet-stream" }));
+      const url = window.URL.createObjectURL(
+        new Blob([res.data], { type: "application/octet-stream" })
+      );
       const link = document.createElement("a");
       link.href = url;
       link.setAttribute("download", fileName || "encrypted_file.aes");

@@ -5,19 +5,19 @@ import { useMessage } from "../contexts/MessageContext";
 import axios from "axios";
 
 export function useSendFileToBlockchain() {
-  const { accessToken } = useAuth();
+  const { isAuthenticated } = useAuth();
   const [loadingSend, setLoadingSend] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const { newMessage } = useMessage();
 
   const sendToBlockchain = async (fileId: number) => {
-    if (!accessToken) {
+    if (!isAuthenticated) {
       setError(new Error("Access Token not provided."));
       return;
     }
     try {
       setLoadingSend(true);
-      const res = await sendFileToBlockchain(accessToken, fileId);
+      const res = await sendFileToBlockchain(fileId);
       if (res.status == 201) {
         newMessage({
           messageType: "success",

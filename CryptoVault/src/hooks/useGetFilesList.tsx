@@ -4,7 +4,7 @@ import { fetchFilesList } from "../services/filesService";
 import type { EncryptedFilesList } from "../types/EncryptedFilesList";
 
 export function useGetFilesList() {
-  const { accessToken } = useAuth();
+  const { isAuthenticated } = useAuth();
   const [filesList, setFilesList] = useState<EncryptedFilesList | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -12,9 +12,11 @@ export function useGetFilesList() {
   const getFiles = useCallback(async () => {
     try {
       setLoading(true);
-      if (!accessToken) throw new Error("Token not provided.");
+      if (!isAuthenticated) {
+        throw new Error("User not authenticated.");
+      }
 
-      const res = await fetchFilesList(accessToken);
+      const res = await fetchFilesList();
       setFilesList(res.data);
     } catch (err) {
       if (err instanceof Error) {
@@ -25,10 +27,12 @@ export function useGetFilesList() {
     } finally {
       setLoading(false);
     }
-  }, [accessToken]);
+  }, [isAuthenticated]);
 
   useEffect(() => {
-    getFiles();
+    if (isAuthenticated) {
+      getFiles();
+    }
   }, [getFiles]);
 
   return { filesList, loading, error, refetch: getFiles };
