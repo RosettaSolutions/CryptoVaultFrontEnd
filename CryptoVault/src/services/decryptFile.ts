@@ -1,7 +1,6 @@
 import api from "./apiInstance";
 
 export async function decryptFile(
-  token: string,
   file: File,
   fileId: number,
   decryptionKey: string
@@ -13,7 +12,6 @@ export async function decryptFile(
 
   const response = await api.post("files/decrypt/", formData, {
     headers: {
-      Authorization: `Bearer ${token}`,
       "Content-Type": "multipart/form-data",
     },
     responseType: "blob",

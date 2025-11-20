@@ -1,11 +1,6 @@
 import api from "./apiInstance";
 
-export async function fetchFilesList(token: string) {
-  const response = await api.get("files/list/", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
+export async function fetchFilesList() {
+  const response = await api.get("files/list/");
   return response;
 }

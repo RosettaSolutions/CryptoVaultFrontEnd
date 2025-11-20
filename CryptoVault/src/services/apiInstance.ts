@@ -1,5 +1,4 @@
 import axios from "axios";
-import { refresh } from "./authService";
 
 const redirectToLogin = () => {
   if (window.location.pathname !== "/login") {
@@ -7,11 +6,23 @@ const redirectToLogin = () => {
   }
 };
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL,
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
+});
+
+// RefreshClient maybe don't make any sense. Can I use the same api instance to a second request?
+const refreshClient = axios.create({
+  baseURL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
 });
 
 api.interceptors.response.use(
@@ -25,22 +36,10 @@ api.interceptors.response.use(
       !originalRequest._retry
     ) {
       originalRequest._retry = true;
-      const refreshToken = localStorage.getItem("refreshToken");
-      if (!refreshToken) {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        redirectToLogin();
-        return Promise.reject(error);
-      }
-
       try {
-        const data = await refresh(refreshToken);
-        localStorage.setItem("accessToken", data.access);
-        originalRequest.headers["Authorization"] = `Bearer ${data.access}`;
+        await refreshClient.post("authentication/token/refresh/", {});
         return api(originalRequest);
       } catch (refreshError) {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
         redirectToLogin();
 
         return Promise.reject(refreshError);

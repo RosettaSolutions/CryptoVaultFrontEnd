@@ -1,11 +1,6 @@
 import api from "./apiInstance";
 
-export async function createApiKey(token: string) {
-  const response = await api.post(`authentication/api_key/`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
+export async function createApiKey() {
+  const response = await api.post(`authentication/api_key/`);
   return response;
 }

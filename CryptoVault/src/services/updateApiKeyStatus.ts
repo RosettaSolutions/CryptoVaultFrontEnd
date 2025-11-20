@@ -1,14 +1,10 @@
 import api from "./apiInstance";
 
-export async function updateApiKeyStatus(token: string, keyId: number) {
+export async function updateApiKeyStatus( keyId: number) {
   const formData = new FormData();
   formData.append("key_id", `${keyId}`);
 
-  const response = await api.patch(`authentication/api_key/`, formData, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await api.patch(`authentication/api_key/`, formData);
 
   return response;
 }
