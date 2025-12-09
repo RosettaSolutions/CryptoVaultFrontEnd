@@ -19,3 +19,7 @@ export const verifyToken = async () => {
     return false;
   }
 };
+
+export const logout = async () => {
+  await api.post("authentication/logout/", {});
+};
