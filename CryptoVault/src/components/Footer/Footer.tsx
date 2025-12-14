@@ -1,5 +1,6 @@
 import LogoRosetta from "../../assets/LogoRosetta.svg";
 import { Link } from "react-router-dom";
+import { COMPLETE_PATHS } from "../../routes/paths";
 
 const Footer = () => {
   return (
@@ -8,7 +9,7 @@ const Footer = () => {
         <img src={LogoRosetta} alt="" className="w-16 h-16 text-sky-400" />
       </div>
       <div></div>
-      <div className="flex font-mono font-light gap-8 text-sm my-4">
+      <div className="flex flex-col md:flex-row items-center font-mono font-light gap-4 md:gap-8 text-sm my-4">
         <Link
           className="cursor-pointer transition-transform duration-300 hover:scale-105 hover:underline"
           to=""
@@ -16,19 +17,13 @@ const Footer = () => {
           Terms of Use
         </Link>
         <Link
-          className="cursor-pointer transition-transform duration-300 hover:scale-110 hover:underline"
-          to=""
-        >
-          Recommend an improvement
-        </Link>
-        <Link
           className="cursor-pointer transition-transform duration-300 hover:scale-105 hover:underline"
-          to=""
+          to={COMPLETE_PATHS.FEEDBACK}
         >
-          Report a Bug
+          Send us a feedback
         </Link>
       </div>
-      <div>
+      <div className="text-center">
         <span className="text-gray-500 text-sm font-thin">
           © 2025 Developed by Rosetta. All rights reserved.
         </span>

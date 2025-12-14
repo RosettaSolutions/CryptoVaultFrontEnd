@@ -1,13 +1,15 @@
 import { IoKey } from "react-icons/io5";
 import { FiLogOut } from "react-icons/fi";
+import { FaKeycdn } from "react-icons/fa";
+import { GiTwoCoins } from "react-icons/gi";
 import { SiBnbchain } from "react-icons/si";
 import { useNavigate } from "react-router-dom";
 import { FaFileShield } from "react-icons/fa6";
 import { FaFileCircleCheck } from "react-icons/fa6";
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { FaKeycdn } from "react-icons/fa";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
 import { useAuth } from "../../contexts/AuthContext";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { COMPLETE_PATHS } from "../../routes/paths";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -45,13 +47,13 @@ const Navbar = () => {
 
             <MenuItems
               anchor="bottom"
-              className="w-54 origin-top-right rounded-xl border border-white/5 bg-gray-700 p-1 text-sm/6 text-gray-50 transition duration-100 ease-out [--anchor-gap:--spacing(1)] focus:outline-none data-closed:scale-95 data-closed:opacity-0"
+              className="ml-2 md:ml-0 w-54 origin-top-right rounded-xl border border-white/5 bg-gray-700 p-1 text-sm/6 text-gray-50 transition duration-100 ease-out [--anchor-gap:--spacing(1)] focus:outline-none data-closed:scale-95 data-closed:opacity-0"
             >
               <MenuItem>
                 <button
                   className="cursor-pointer group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10"
                   onClick={() => {
-                    navigate("/files");
+                    navigate(COMPLETE_PATHS.FILES);
                   }}
                 >
                   Files
@@ -62,7 +64,7 @@ const Navbar = () => {
                 <button
                   className="cursor-pointer group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10"
                   onClick={() => {
-                    navigate("/api_keys");
+                    navigate(COMPLETE_PATHS.API_KEYS);
                   }}
                 >
                   API Keys
@@ -73,7 +75,7 @@ const Navbar = () => {
                 <button
                   className="cursor-pointer group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10"
                   onClick={() => {
-                    navigate("/blockchain");
+                    navigate(COMPLETE_PATHS.BLOCKCHAIN);
                   }}
                 >
                   Blockchain Details
@@ -84,7 +86,7 @@ const Navbar = () => {
                 <button
                   className="cursor-pointer group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10"
                   onClick={() => {
-                    navigate("/validation");
+                    navigate(COMPLETE_PATHS.VALIDATION);
                   }}
                 >
                   Validation
@@ -95,7 +97,7 @@ const Navbar = () => {
                 <button
                   className="cursor-pointer group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10"
                   onClick={() => {
-                    navigate("/decryption");
+                    navigate(COMPLETE_PATHS.DECRYPTION);
                   }}
                 >
                   Decryption
@@ -106,7 +108,7 @@ const Navbar = () => {
                 <button
                   className="cursor-pointer group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10"
                   onClick={() => {
-                    navigate("/billing");
+                    navigate(COMPLETE_PATHS.BILLING);
                   }}
                 >
                   Billing
@@ -117,8 +119,18 @@ const Navbar = () => {
                 <button
                   className="cursor-pointer group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10"
                   onClick={() => {
+                    navigate(COMPLETE_PATHS.CREDITS);
+                  }}
+                >
+                  Credits
+                  <GiTwoCoins className="ml-auto hidden group-data-focus:inline" />
+                </button>
+              </MenuItem>
+              <MenuItem>
+                <button
+                  className="cursor-pointer group flex w-full items-center gap-2 rounded-lg px-3 py-1.5 data-focus:bg-white/10"
+                  onClick={() => {
                     logout();
-                    navigate("/login");
                   }}
                 >
                   Logout

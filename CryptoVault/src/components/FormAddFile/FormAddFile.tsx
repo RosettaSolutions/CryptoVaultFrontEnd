@@ -9,6 +9,7 @@ import { useEncryptFile } from "../../hooks/useEncryptFile";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMessage } from "../../contexts/MessageContext";
+import { COMPLETE_PATHS } from "@/routes/paths";
 
 type Props = {
   showForm: boolean;
@@ -33,11 +34,11 @@ const FormAddFile = ({ showForm, setShowForm }: Props) => {
 
       URL.revokeObjectURL(link.href);
 
-      navigate("/files");
+      navigate(COMPLETE_PATHS.FILES);
       newMessage({
         messageType: "success",
         message: "File encrypted successfully.",
-        description: `The file: ${responseData.file_name} was encrypted, you can see the register in files page.`,
+        description: `Attention:\n\nThe file _unique_decryption_key.txt contains the only key that can decrypt your file.\nYou will not be able to access it again later — not even we can.\n\nPlease store it in a secure place, such as a password manager or written in a physical notebook.`,
       });
     }
   }, [responseData, navigate, newMessage]);
@@ -77,7 +78,7 @@ const FormAddFile = ({ showForm, setShowForm }: Props) => {
             </button>
           </div> */}
           <div className="w-full flex">
-            <Link to="/files">
+            <Link to={COMPLETE_PATHS.FILES}>
               <button
                 className="cursor-pointer"
                 onClick={() => setShowForm(false)}
