@@ -9,6 +9,7 @@ import { useGetFilesList } from "../hooks/useGetFilesList";
 import SearchInput from "../components/SearchInput/SearchInput";
 import CardTitleInfo from "../components/CardTitleInfo/CardTitleInfo";
 import NoMatchMessage from "../components/NoMatchCard/NoMatchMessage";
+import { COMPLETE_PATHS } from "@/routes/paths";
 
 const FilesPage = () => {
   const { filesList, loading, refetch } = useGetFilesList();
@@ -28,7 +29,7 @@ const FilesPage = () => {
             />
             <div className="flex h-fit items-center gap-3">
               <SearchInput />
-              <Link to="/add_file">
+              <Link to={COMPLETE_PATHS.ADD_FILE}>
                 <Button
                   type="submit"
                   className="inline-flex items-center gap-2 rounded-md bg-gray-700 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-gray-600 data-open:bg-gray-700 cursor-pointer"
@@ -52,7 +53,7 @@ const FilesPage = () => {
                 title="You don't have any registered file yet."
                 description="You need at least one file to see this page."
               />
-              <Link to="/add_file">
+              <Link to={COMPLETE_PATHS.ADD_FILE}>
                 <Button type="submit" className="submit-btn">
                   Register a file
                 </Button>

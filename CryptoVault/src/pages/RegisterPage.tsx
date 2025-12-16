@@ -3,6 +3,7 @@ import { Button } from "@headlessui/react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useRegisterUser } from "../hooks/useRegisterUser";
+import { COMPLETE_PATHS } from "../routes/paths"; 
 
 const RegisterPage = () => {
   const [username, setUsername] = useState("");
@@ -13,7 +14,7 @@ const RegisterPage = () => {
   return (
     <main className="w-screen h-screen flex  items-center justify-center flex-col">
       <h1 className="text-sky-400 text-5xl font-mono font-semibold">
-        <Link to="/">CryptoVault</Link>
+        <Link to={COMPLETE_PATHS.HOME}>CryptoVault</Link>
       </h1>
       <h6 className="text-2xl mt-6 mb-3 text-slate-700 font-light">
         Register your account
@@ -49,7 +50,7 @@ const RegisterPage = () => {
         <span className="text-sm mt-6">
           Already have an account ?{" "}
           <Link
-            to="/login"
+            to={COMPLETE_PATHS.LOGIN}
             className="text-sm font-mono font-semibold text-sky-400 underline"
           >
             Sign in

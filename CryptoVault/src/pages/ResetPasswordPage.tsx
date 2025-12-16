@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { usePasswordResetVerify } from "../hooks/usePasswordResetVerify";
 import InputWithLabel from "../components/InputWithLabel/InputWithLabel";
 import { usePasswordResetConfirm } from "../hooks/usePasswordResetConfirm";
+import { COMPLETE_PATHS } from "../routes/paths";
 
 const ResetPasswordPage = () => {
   const [newPassword, setNewPassword] = useState("");
@@ -19,7 +20,7 @@ const ResetPasswordPage = () => {
   return (
     <main className="w-screen h-screen flex  items-center justify-center flex-col">
       <h1 className="text-sky-400 text-5xl font-mono font-semibold">
-        <Link to="/">CryptoVault</Link>
+        <Link to={COMPLETE_PATHS.LOGIN}>CryptoVault</Link>
       </h1>
       <h6 className="text-2xl mt-6 mb-3 text-slate-700 font-light">
         Reset your password

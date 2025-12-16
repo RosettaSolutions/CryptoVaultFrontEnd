@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import { usePasswordResetRequest } from "../hooks/usePasswordResetRequest";
+import { COMPLETE_PATHS } from "../routes/paths";
 
 const ForgotPasswordPage = () => {
   const [usernameOrPassword, setUsernameOrPassword] = useState("");
@@ -12,7 +13,7 @@ const ForgotPasswordPage = () => {
   return (
     <main className="w-screen h-screen flex  items-center justify-center flex-col">
       <h1 className="text-sky-400 text-5xl font-mono font-semibold">
-        <Link to="/login">CryptoVault</Link>
+        <Link to={COMPLETE_PATHS.LOGIN}>CryptoVault</Link>
       </h1>
       <h6 className="text-2xl mt-6 mb-3 text-slate-700 font-light">
         Request a password reset email
@@ -35,7 +36,7 @@ const ForgotPasswordPage = () => {
         <span className="text-sm mt-6">
           Remember your password ?{" "}
           <Link
-            to="/Login"
+            to={COMPLETE_PATHS.LOGIN}
             className="text-sm font-mono font-semibold text-sky-400 underline"
           >
             Sign in
