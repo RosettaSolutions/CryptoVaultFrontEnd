@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import confetti from "canvas-confetti";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import { Button } from "@/components/ui/button";
@@ -11,16 +14,85 @@ import {
 } from "@/components/ui/card";
 import { Coins, ExternalLink } from "lucide-react";
 import CardTitleInfo from "@/components/CardTitleInfo/CardTitleInfo";
+import { useMessage } from "@/contexts/MessageContext";
+import { useBuyCreditsCheckout } from "@/hooks/useGetBuyCreditsLink";
+import { Spinner } from "@/components/ui/spinner"
 
 const CreditsPage = () => {
-  const handleBuyCredits = () => {
-    const paymentLink = import.meta.env.VITE_STRIPE_PAYMENT_LINK;
-    if (paymentLink) {
-      window.open(paymentLink, "_blank");
-    } else {
-      console.error("Stripe payment link is not defined in environment variables.");
-    }
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { newMessage } = useMessage();
+  const { fetchBuyCreditsLink, loading } = useBuyCreditsCheckout();
+  const [ session_id, setSessionId ] = useState<string | null>(null);
+
+  const handlePurchaseSucefully = () => {
+    const duration = 3 * 1000;
+    const animationEnd = Date.now() + duration;
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+    const randomInRange = (min: number, max: number) => {
+      return Math.random() * (max - min) + min;
+    };
+
+    const interval: NodeJS.Timeout = setInterval(function () {
+      const timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+
+      const particleCount = 50 * (timeLeft / duration);
+      confetti({
+        ...defaults,
+        particleCount,
+        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+      });
+      confetti({
+        ...defaults,
+        particleCount,
+        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+      });
+    }, 250);
+    newMessage({
+      messageType: "success",
+      message: "Purchase successful!",
+      description: "Thank you for your purchase. You will receive your credits shortly.",
+    });
+  }; 
+
+  const handlePurchaseFailed = () => {
+    newMessage({
+      messageType: "error",
+      message: "Purchase failed!",
+      description: "If you receive some problem, please contact our support.",
+    });
   };
+
+  const cleanQueryParams = () => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete("session_id");
+    newParams.delete("success");
+    setSearchParams(newParams);
+  };
+
+  useEffect(() => {
+    if (searchParams.get("session_id")) {
+      if (searchParams.get("success") === "true") {
+        handlePurchaseSucefully();
+      }
+      if (searchParams.get("success") === "false") {
+        handlePurchaseFailed();
+      }
+      setSessionId(searchParams.get("session_id")); // If i need to do some verification with session_id
+      cleanQueryParams();
+    }
+  }, [searchParams, setSearchParams]);
+
+  const handleBuyCredits = async () => {
+    const data = await fetchBuyCreditsLink();
+      if (data.checkout_url) {
+        window.open(data.checkout_url, "_self");
+      }
+    };
 
   return (
     <>
@@ -51,8 +123,14 @@ const CreditsPage = () => {
                 className="w-full h-11 text-base font-medium transition-all hover:scale-[1.02]"
                 size="lg"
               >
-                Buy More Credits
-                <ExternalLink className="ml-2 h-4 w-4" />
+                {loading ? (
+                      <Spinner />
+                  ) : (
+                      <span className="flex items-center gap-2">
+                          Buy More Credits
+                          <ExternalLink className="h-4 w-4" />
+                      </span>
+                  )}
               </Button>
             </CardFooter>
           </Card>
