@@ -21,50 +21,54 @@ const ApiKeysDetailsTable = ({ ApiKeysList, refetch }: Props) => {
   };
 
   return (
-    <table className="table-auto bg-gray-50 shadow-xl rounded-md mt-7 w-4/5">
-      <thead className="text-gray-700 font-mono font-semibold text-sm border-b border-gray-200">
-        <tr className="">
-          <th className="px-4 py-3">ID</th>
-          <th className="px-4 py-3">Key</th>
-          <th className="px-4 py-3">Created at</th>
-          <th className="px-4 py-3">Is active ?</th>
-          <th className="px-4 py-3">Actions</th>
-        </tr>
-      </thead>
-      <tbody className="divide-y divide-gray-200 font-sans font-extralight text-sm">
-        {ApiKeysList.keys.map((key) => (
-          <tr className="text-center align-middle" key={key.key_id}>
-            <td className="py-3">{key.key_id}</td>
-            <td
-              className="py-3 hover:cursor-copy"
-              onClick={() => {
-                handleCopyValue(key.key, "API Key");
-              }}
-            >
-              {key.key}
-            </td>
-            <td className="py-3">
-              {new Date(key.created_at).toLocaleString("en-US")}
-            </td>
-            <td className="py-3">
-              <div className="flex justify-center">
-                {key.is_active ? (
-                  <FaCheck className="text-green-500" />
-                ) : (
-                  <GrClose className="text-red-500" />
-                )}
-              </div>
-            </td>
-            <td className="py-3 flex justify-center">
-              <ApiKeysTableDropdownButton
-                keyId={key.key_id}
-                refetch={refetch}
-              />
-            </td>
+    <div className="w-11/12 md:w-4/5 overflow-x-auto shadow-xl rounded-md mt-7">
+      <table className="w-full table-auto bg-gray-50">
+        <thead className="text-gray-700 font-mono font-semibold text-sm border-b border-gray-200">
+          <tr className="">
+            <th className="px-4 py-3">ID</th>
+            <th className="px-4 py-3">Key</th>
+            <th className="px-4 py-3">Created at</th>
+            <th className="px-4 py-3">Is active ?</th>
+            <th className="px-4 py-3">Actions</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody className="divide-y divide-gray-200 font-sans font-extralight text-sm">
+          {ApiKeysList.keys.map((key) => (
+            <tr className="text-center align-middle" key={key.key_id}>
+              <td className="py-3">{key.key_id}</td>
+              <td
+                className="py-3 hover:cursor-copy"
+                onClick={() => {
+                  handleCopyValue(key.key, "API Key");
+                }}
+              >
+                {key.key}
+              </td>
+              <td className="py-3">
+                {new Date(key.created_at).toLocaleString("en-US")}
+              </td>
+              <td className="py-3">
+                <div className="flex justify-center">
+                  {key.is_active ? (
+                    <FaCheck className="text-green-500" />
+                  ) : (
+                    <GrClose className="text-red-500" />
+                  )}
+                </div>
+              </td>
+              <td>
+                <div className="h-full w-full flex justify-center items-center">
+                  <ApiKeysTableDropdownButton
+                    keyId={key.key_id}
+                    refetch={refetch}
+                  />
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 
