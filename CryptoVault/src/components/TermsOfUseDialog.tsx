@@ -9,11 +9,11 @@ import {
 import { ScrollArea } from "./ui/scroll-area"
 import { Button } from "./ui/button"
 
-export function TermsOfUseDialog() {
+export function TermsOfUseDialog({ className }: { className?: string }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="link" className="text-gray-50 cursor-pointer transition-transform duration-300 hover:scale-105 hover:underline">
+        <Button variant="link" className={className}>
           Terms of Use
         </Button>
       </DialogTrigger>
