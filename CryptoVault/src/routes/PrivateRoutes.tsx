@@ -13,10 +13,12 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { PARTIAL_PATHS } from "./paths";
 import NotFoundPage from "@/pages/NotFoundPage";
 import CreditsPage from "@/pages/CreditsPage";
+import { AccountProvider } from "@/contexts/AccountContext";
 
 export default function PrivateRoutes() {
   return (
     <AuthProvider>
+      <AccountProvider fetchOnMount={true}>
       <Routes>
         <Route
           path={PARTIAL_PATHS.FILES}
@@ -109,6 +111,7 @@ export default function PrivateRoutes() {
           element={<NotFoundPage />}
         />
       </Routes>
+      </AccountProvider >
     </AuthProvider>
   );
 }
