@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useRegisterUser } from "../hooks/useRegisterUser";
 import { COMPLETE_PATHS } from "../routes/paths"; 
+import { TermsOfUseDialog } from "../components/TermsOfUseDialog";
 
 const RegisterPage = () => {
   const [username, setUsername] = useState("");
@@ -55,6 +56,10 @@ const RegisterPage = () => {
           >
             Sign in
           </Link>
+        </span>
+        <span className="text-sm">
+          By signing up, you agree to our{" "}
+          <TermsOfUseDialog className="text-sm cursor-pointer font-mono font-semibold text-sky-400 underline underline-offset-auto p-0"  />
         </span>
         <Button type="submit" className="submit-btn">
           Sign up

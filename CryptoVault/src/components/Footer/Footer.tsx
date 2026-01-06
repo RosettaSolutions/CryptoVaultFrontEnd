@@ -1,6 +1,7 @@
 import LogoRosetta from "../../assets/LogoRosetta.svg";
 import { Link } from "react-router-dom";
 import { COMPLETE_PATHS } from "../../routes/paths";
+import { TermsOfUseDialog } from "@/components/TermsOfUseDialog";
 
 const Footer = () => {
   return (
@@ -9,13 +10,8 @@ const Footer = () => {
         <img src={LogoRosetta} alt="" className="w-16 h-16 text-sky-400" />
       </div>
       <div></div>
-      <div className="flex flex-col md:flex-row items-center font-mono font-light gap-4 md:gap-8 text-sm my-4">
-        <Link
-          className="cursor-pointer transition-transform duration-300 hover:scale-105 hover:underline"
-          to=""
-        >
-          Terms of Use
-        </Link>
+      <div className="flex flex-col md:flex-row items-center font-mono font-light gap-3 md:gap-8 text-sm my-4">
+        <TermsOfUseDialog className="text-gray-50 cursor-pointer transition-transform duration-300 hover:scale-105 hover:underline p-0 h-fit"/>
         <Link
           className="cursor-pointer transition-transform duration-300 hover:scale-105 hover:underline"
           to={COMPLETE_PATHS.FEEDBACK}
