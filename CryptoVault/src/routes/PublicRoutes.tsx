@@ -19,7 +19,7 @@ export default function PublicRoutes() {
         path={PARTIAL_PATHS.RESET_PASSWORD()}
         element={<ResetPasswordPage />}
       />
-      <Route path={PARTIAL_PATHS.EMAIL_VALIDATED} element={<EmailValidatedPage />} />
+      <Route path={PARTIAL_PATHS.EMAIL_VALIDATED()} element={<EmailValidatedPage />} />
       <Route path={PARTIAL_PATHS.NOT_FOUND} element={<NotFoundPage />} />
     </Routes>
   );

@@ -8,7 +8,8 @@ export const PARTIAL_PATHS = {
   LOGIN: "/login",
   REGISTER: "/register",
   FORGOT_PASSWORD: "/forgot-password",
-  EMAIL_VALIDATED: "/email-validated",
+  EMAIL_VALIDATED: (uid = ":uid", token = ":token") =>
+    `/verify-email/${uid}/${token}`,
   RESET_PASSWORD: (uid = ":uid", token = ":token") =>
     `/reset-password/${uid}/${token}`,
 
@@ -30,7 +31,8 @@ export const COMPLETE_PATHS = {
   LOGIN: `${INDEX.PUBLIC}${PARTIAL_PATHS.LOGIN}`,
   REGISTER: `${INDEX.PUBLIC}${PARTIAL_PATHS.REGISTER}`,
   FORGOT_PASSWORD: `${INDEX.PUBLIC}${PARTIAL_PATHS.FORGOT_PASSWORD}`,
-  EMAIL_VALIDATED: `${INDEX.PUBLIC}${PARTIAL_PATHS.EMAIL_VALIDATED}`,
+  EMAIL_VALIDATED: (uid = ":uid", token = ":token") =>
+    `${INDEX.PUBLIC}${PARTIAL_PATHS.EMAIL_VALIDATED(uid, token)}`,
   RESET_PASSWORD: (uid = ":uid", token = ":token") =>
     `${INDEX.PUBLIC}${PARTIAL_PATHS.RESET_PASSWORD(uid, token)}`,
   HOME: `${INDEX.PUBLIC}${PARTIAL_PATHS.HOME}`,
