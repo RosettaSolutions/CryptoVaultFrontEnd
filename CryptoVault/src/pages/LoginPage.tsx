@@ -1,19 +1,20 @@
-import InputWithLabel from "../components/InputWithLabel/InputWithLabel";
-import { Button } from "@headlessui/react";
-import { Link } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
 import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Button } from "@headlessui/react";
+import { useLogin } from "@/hooks/useLogin";
+import { COMPLETE_PATHS } from "@/routes/paths";
+import InputWithLabel from "../components/InputWithLabel/InputWithLabel";
 
-const LoginPage = () => {
-  const { login } = useAuth();
+
+export const LoginPage = () => {
+  const { doLogin } = useLogin(); // loadingLogin is not used
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   return (
     <main className="w-screen h-screen flex  items-center justify-center flex-col">
       <h1 className="text-sky-400 text-5xl font-mono font-semibold">
-        <Link to="/">CryptoVault</Link>
+        <Link to={COMPLETE_PATHS.HOME}>CryptoVault</Link>
       </h1>
       <h6 className="text-2xl mt-6 mb-3 text-slate-700 font-light">
         Login to your account
@@ -21,7 +22,7 @@ const LoginPage = () => {
       <form
         onSubmit={async (e) => {
           e.preventDefault();
-          await login(username, password);
+          await doLogin(username, password);
         }}
         className="w-full max-w-md flex items-center justify-center flex-col"
       >
@@ -31,6 +32,7 @@ const LoginPage = () => {
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          autoComplete="username"
         />
         <InputWithLabel
           label="Password"
@@ -38,12 +40,13 @@ const LoginPage = () => {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          autoComplete="current-password"
         />
         <div className="flex flex-col w-full px-4 align-middle items-center">
           <span className="text-sm mt-6">
             Need an account ?{" "}
             <Link
-              to="/register"
+              to={COMPLETE_PATHS.REGISTER}
               className="text-sm font-mono font-semibold text-sky-400 underline"
             >
               Sign up
@@ -52,7 +55,7 @@ const LoginPage = () => {
           <span className="text-sm mt-2">
             Forgot your password ?{" "}
             <Link
-              to="/forgot-password"
+              to={COMPLETE_PATHS.FORGOT_PASSWORD}
               className="text-sm font-mono font-semibold text-sky-400 underline"
             >
               Reset password
@@ -66,5 +69,3 @@ const LoginPage = () => {
     </main>
   );
 };
-
-export default LoginPage;
