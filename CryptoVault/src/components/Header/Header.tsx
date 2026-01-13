@@ -8,7 +8,7 @@ const Header = () => {
     <header className="w-[80%] bg-gray-50 rounded-b-lg h-16 shadow-md flex items-center justify-between px-6 mb-6">
       <Navbar />
       <Link
-        to={COMPLETE_PATHS.LOGIN}
+        to={COMPLETE_PATHS.FILES}
         className="font-mono font-semibold text-sky-400 transition-transform duration-300 hover:scale-105"
       >
         CryptoVault
