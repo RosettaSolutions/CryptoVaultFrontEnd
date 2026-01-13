@@ -1,12 +1,15 @@
-import { useEffect } from "react";
 import { GiCubes } from "react-icons/gi";
+import { useEffect, useState } from "react";
 import { MdDeleteForever } from "react-icons/md";
 import { MdSimCardDownload } from "react-icons/md";
+import { CreditCostDialog } from "../CreditCostDialog";
+import { useAccount } from "@/contexts/AccountContext";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { useDeleteFile } from "../../hooks/useDeleteFile";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { useSendFileToBlockchain } from "../../hooks/useSendFileToBlockchain";
 import { useDownloadEncryptedFile } from "../../hooks/useDownloadEncryptedFile";
+
 
 interface Props {
   fileId: number;
@@ -17,6 +20,8 @@ const DropdownButton = ({ fileId, refetch }: Props) => {
   const { deleteEncryptedFile, loading } = useDeleteFile();
   const { downloadEncryptedFile } = useDownloadEncryptedFile();
   const { sendToBlockchain, loadingSend } = useSendFileToBlockchain();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { accountInformation, refetchAccountInformation } = useAccount();
 
   useEffect(() => {
     // console.log(loadingSend)
@@ -45,13 +50,26 @@ const DropdownButton = ({ fileId, refetch }: Props) => {
     await downloadEncryptedFile(fileId);
   };
 
-  const handleSendToBlockchain = async () => {
+  const handleSendToBlockchain = () => {
+    setIsDialogOpen(true);
+  };
+
+  const onConfirmSend = async () => {
+    setIsDialogOpen(false);
     await sendToBlockchain(fileId);
     refetch();
+    refetchAccountInformation();
   };
 
   return (
     <div className="text-right">
+      <CreditCostDialog // Set CreditCostDialog in DropdownButton is more performatic than set it in FilesPage?
+        isOpen={isDialogOpen} 
+        onOpenChange={setIsDialogOpen} 
+        onAgree={onConfirmSend} 
+        onDisagree={() => setIsDialogOpen(false)} 
+        currentCredits={accountInformation?.available_balance || 0}
+      />
       <Menu>
         <MenuButton className="inline-flex items-center gap-2 rounded-md bg-gray-800 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-gray-700 data-open:bg-gray-700 cursor-pointer">
           <HiOutlineDotsHorizontal />
