@@ -39,7 +39,7 @@ const Message = () => {
 
   return (
     <div
-      className={`absolute top-24 left-1/2 transform -translate-x-1/2 z-50 w-fit h-fit px-3 py-2 bg-gray-50 rounded-md gap-2 shadow-md text-sm ${
+      className={`fixed top-22 left-1/2 transform -translate-x-1/2 z-50 w-fit h-fit px-3 py-2 bg-gray-50 rounded-md gap-2 shadow-md text-sm ${
         typeStyles[message.messageType]
       }`}
     >

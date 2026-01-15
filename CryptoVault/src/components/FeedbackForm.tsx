@@ -73,7 +73,8 @@ const FeedbackForm = () => {
   };
 
   return (
-    <Card className="w-10/12 max-w-md">
+    <div className="flex flex-col items-center justify-center w-full px-6">
+    <Card className="w-full md:w-lg">
       <CardHeader className="w-full">
         <CardTitle>Send us a feedback</CardTitle>
         <CardDescription>
@@ -144,6 +145,7 @@ const FeedbackForm = () => {
         </form>
       </CardContent>
     </Card>
+    </div>
   );
 };
 

@@ -6,7 +6,7 @@ type Props = {
 
 const CardTitleInfo = ({ title, description, counter }: Props) => {
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center text-center mx-3">
       <h1 className="text-2xl  mb-3 text-slate-700 font-light">
         {title}
         {counter !== undefined && <span> ( {counter} ) </span>}

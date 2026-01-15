@@ -4,11 +4,11 @@ import { Button } from "@headlessui/react";
 const NotFoundPage = () => {
   return (
     <main className="w-full h-screen flex flex-col items-center justify-center px-4 text-center">
-      <h1 className="text-sky-400 text-5xl font-mono font-semibold">
+      <h1 className="text-sky-400 text-3xl md:text-5xl font-mono font-semibold">
         CryptoVault
       </h1>
 
-      <h6 className="text-9xl mt-4 text-slate-700 font-bold italic animate-pulse">
+      <h6 className="text-6xl md:text-9xl mt-4 text-slate-700 font-bold italic animate-pulse">
         404
       </h6>
 

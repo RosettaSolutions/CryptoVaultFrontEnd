@@ -41,7 +41,7 @@ export function useRegisterUser() {
       }
 
       newMessage({
-        messageType: "error",
+        messageType: "warning",
         message: errorMessage,
       });
     } finally {

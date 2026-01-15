@@ -38,7 +38,9 @@ const FormAddFile = ({ showForm, setShowForm }: Props) => {
       newMessage({
         messageType: "success",
         message: "File encrypted successfully.",
-        description: `Attention:\n\nThe file _unique_decryption_key.txt contains the only key that can decrypt your file.\nYou will not be able to access it again later — not even we can.\n\nPlease store it in a secure place, such as a password manager or written in a physical notebook.`,
+        description: `This downloaded file contains your only decryption key. Please store it safely. Lost keys cannot be restored.`,
+        showUndo: true,
+        duration: 20000,
       });
     }
   }, [responseData, navigate, newMessage]);
