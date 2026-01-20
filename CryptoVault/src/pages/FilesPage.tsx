@@ -6,7 +6,7 @@ import { PropagateLoader } from "react-spinners";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import { useGetFilesList } from "../hooks/useGetFilesList";
-import SearchInput from "../components/SearchInput/SearchInput";
+// import SearchInput from "../components/SearchInput/SearchInput";
 import CardTitleInfo from "../components/CardTitleInfo/CardTitleInfo";
 import NoMatchMessage from "../components/NoMatchCard/NoMatchMessage";
 import { COMPLETE_PATHS } from "@/routes/paths";
@@ -28,7 +28,6 @@ const FilesPage = () => {
               description="This page shows your registered files and allows you to manage them."
             />
             <div className="flex h-fit items-center gap-3">
-              <SearchInput />
               <Link to={COMPLETE_PATHS.ADD_FILE}>
                 <Button
                   type="submit"
