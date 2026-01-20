@@ -1,49 +1,74 @@
-import { createContext, useContext, useState } from "react";
-import type { ReactNode } from "react";
+import * as authService from "../services/authService";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
+import { useMessage } from "./MessageContext";
 
-interface AuthContextType {
-  accessToken: string | null;
-  login: (username: string, password: string) => Promise<void>;
+
+interface AuthContextData {
   logout: () => void;
+  loading: boolean;
+  isAuthenticated: boolean;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextData | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [accessToken, setAccessToken] = useState<string | null>(
-    localStorage.getItem("accessToken")
-  );
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
+  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { newMessage } = useMessage();
 
-  const login = async (username: string, password: string) => {
-    const res = await fetch("http://localhost:8000/api/token/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
+  useEffect(() => {
+    const initializeAuth = async () => {
+      setLoading(true);
+      try {
+        const isValid = await authService.verifyToken();
+        console.log("isValid:", isValid);
+        if (isValid) {
+          setIsAuthenticated(true);
+          console.log(isAuthenticated);
+          return;
+        }
+
+        await authService.refresh();
+        const refreshedIsValid = await authService.verifyToken();
+        setIsAuthenticated(refreshedIsValid);
+      } catch (error) {
+        setIsAuthenticated(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initializeAuth();
+  }, []);
+
+  const logout = async () => {
+    await authService.logout();
+    setIsAuthenticated(false);
+    newMessage({
+      messageType: "success",
+      message: "Logout successful.",
     });
-
-    if (!res.ok) throw new Error("Invalid credentials");
-
-    const data = await res.json();
-    localStorage.setItem("accessToken", data.access);
-    localStorage.setItem("refreshToken", data.refresh);
-    setAccessToken(data.access);
-  };
-
-  const logout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    setAccessToken(null);
   };
 
   return (
-    <AuthContext.Provider value={{ accessToken, login, logout }}>
+    <AuthContext.Provider value={{ logout, loading, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => {
+export const useAuth = (): AuthContextData => {
   const context = useContext(AuthContext);
-  if (!context) throw new Error("useAuth must be used within AuthProvider");
+  if (!context) {
+    throw new Error("useAuth must be used inside AuthProvider");
+  }
   return context;
 };
