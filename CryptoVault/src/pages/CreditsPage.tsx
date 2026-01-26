@@ -23,7 +23,7 @@ const CreditsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { newMessage } = useMessage();
   const { fetchBuyCreditsLink, loading } = useBuyCreditsCheckout();
-  const [ session_id, setSessionId ] = useState<string | null>(null);
+  const [ sessionId, setSessionId ] = useState<string | null>(null);
   const { accountInformation, refetchAccountInformation } = useAccount();
 
   const processingRef = useRef(false);
@@ -94,6 +94,7 @@ const CreditsPage = () => {
       
       if (processingRef.current) {
         setSessionId(searchParams.get("session_id"));
+        console.log(sessionId);
         cleanQueryParams();
       }
     }

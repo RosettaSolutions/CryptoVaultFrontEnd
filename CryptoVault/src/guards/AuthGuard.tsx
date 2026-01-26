@@ -1,4 +1,4 @@
-import { useEffect, type JSX } from "react";
+import { type JSX } from "react";
 import { Navigate } from "react-router-dom";
 import { PropagateLoader } from "react-spinners";
 import { useAuth } from "../contexts/AuthContext";

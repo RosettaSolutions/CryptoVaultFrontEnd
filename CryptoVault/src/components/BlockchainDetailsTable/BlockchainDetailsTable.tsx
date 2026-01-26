@@ -7,7 +7,8 @@ type Props = {
   refetch: () => void;
 };
 
-const BlockchainDetailsTable = ({ filesOnTheBlockchain, refetch }: Props) => {
+// remove refetch prop
+const BlockchainDetailsTable = ({ filesOnTheBlockchain }: Props) => {
   const { newMessage } = useMessage();
 
   const handleCopyValue = (value: string, columnValue: string) => {
