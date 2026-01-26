@@ -21,15 +21,22 @@ export function useSendFileToBlockchain() {
       if (res.status == 201) {
         newMessage({
           messageType: "success",
-          message: "File successfully deployed to the ethereum network.",
+          message: "File successfully in Polygon blockchain.",
         });
       }
     } catch (err) {
-      if (axios.isAxiosError(err) && err.response?.status === 409) {
-        newMessage({
-          messageType: "warning",
-          message: "This file already has a record on the blockchain.",
-        });
+      if (axios.isAxiosError(err)) {
+        if (err.response?.status === 409){
+          newMessage({
+            messageType: "warning",
+            message: "This file already has a record on the Polygon blockchain.",
+          });
+        } else if (err.response?.status === 402){
+          newMessage({
+            messageType: "warning",
+            message: "Insufficient available credits.",
+          });
+        }
       } else if (err instanceof Error) {
         setError(err);
       } else {
