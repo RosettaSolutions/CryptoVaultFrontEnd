@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import confetti from "canvas-confetti";
 import Header from "@/components/Header/Header";
@@ -17,14 +17,18 @@ import CardTitleInfo from "@/components/CardTitleInfo/CardTitleInfo";
 import { useMessage } from "@/contexts/MessageContext";
 import { useBuyCreditsCheckout } from "@/hooks/useGetBuyCreditsLink";
 import { Spinner } from "@/components/ui/spinner"
+import { useAccount } from "@/contexts/AccountContext";
 
 const CreditsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { newMessage } = useMessage();
   const { fetchBuyCreditsLink, loading } = useBuyCreditsCheckout();
   const [ session_id, setSessionId ] = useState<string | null>(null);
+  const { accountInformation, refetchAccountInformation } = useAccount();
 
-  const handlePurchaseSucefully = () => {
+  const processingRef = useRef(false);
+
+  const handlePurchaseSuccessfully = () => {
     const duration = 3 * 1000;
     const animationEnd = Date.now() + duration;
     const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
@@ -75,15 +79,23 @@ const CreditsPage = () => {
   };
 
   useEffect(() => {
+    if (processingRef.current) return;
+
     if (searchParams.get("session_id")) {
-      if (searchParams.get("success") === "true") {
-        handlePurchaseSucefully();
-      }
-      if (searchParams.get("success") === "false") {
+      const success = searchParams.get("success");
+      
+      if (success === "true") {
+        handlePurchaseSuccessfully();
+        processingRef.current = true;
+      } else if (success === "false") {
         handlePurchaseFailed();
+        processingRef.current = true;
       }
-      setSessionId(searchParams.get("session_id")); // If i need to do some verification with session_id
-      cleanQueryParams();
+      
+      if (processingRef.current) {
+        setSessionId(searchParams.get("session_id"));
+        cleanQueryParams();
+      }
     }
   }, [searchParams, setSearchParams]);
 
@@ -93,6 +105,11 @@ const CreditsPage = () => {
         window.open(data.checkout_url, "_self");
       }
     };
+
+  // Check the correct use
+  useEffect(() => {
+    refetchAccountInformation();
+  }, []);
 
   return (
     <>
@@ -114,7 +131,7 @@ const CreditsPage = () => {
             </CardHeader>
             <CardContent className="text-center pb-6">
               <div className="text-6xl font-extrabold font-mono italic tracking-tighter text-blue-400">
-                50
+                { accountInformation?.available_balance || 0 }
               </div>
             </CardContent>
             <CardFooter>
