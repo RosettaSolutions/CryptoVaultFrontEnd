@@ -18,6 +18,11 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Link } from 'react-router-dom';
+import { PARTIAL_PATHS } from '@/routes/paths';
+import { TermsOfUseDialog } from '@/components/TermsOfUseDialog';
+import LogoRoseta from '@/assets/LogoRosettaWithNameV3.svg';
+
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -33,6 +38,10 @@ const staggerContainer = {
   }
 };
 
+const githubUrl = import.meta.env.VITE_GITHUB_URL;
+const rosettaUrl = import.meta.env.VITE_ROSETTA_URL;
+const docsUrl = import.meta.env.VITE_CRYPTOVAULT_DOCS_URL;
+
 export default function CryptoVaultHomePage() {
   return (
     <div className="min-h-full w-full bg-[#FAFAFA]">
@@ -43,24 +52,63 @@ export default function CryptoVaultHomePage() {
         transition={{ duration: 0.5 }}
         className="border-b border-gray-200 bg-white/80 backdrop-blur-xl sticky top-0 z-50"
       >
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Shield className="w-8 h-8 text-blue-600" />
-            <span className="text-2xl font-bold text-gray-900 font-mono">CryptoVault</span>
+        <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2">
+            <Shield className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
+            <span className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 font-mono">
+              CryptoVault
+            </span>
+          </Link>
+
+          {/* Desktop Navigation Links */}
+          <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+            <a 
+              href="#features" 
+              className="text-gray-600 hover:text-blue-600 transition-colors font-medium text-sm xl:text-base"
+            >
+              Features
+            </a>
+            <a 
+              href="#security" 
+              className="text-gray-600 hover:text-blue-600 transition-colors font-medium text-sm xl:text-base"
+            >
+              Security
+            </a>
+            <a 
+              href="#blockchain" 
+              className="text-gray-600 hover:text-blue-600 transition-colors font-medium text-sm xl:text-base"
+            >
+              Blockchain
+            </a>
+            <a 
+              href={docsUrl} 
+              className="text-gray-600 hover:text-blue-600 transition-colors font-medium text-sm xl:text-base"
+            >
+              Docs
+            </a>
           </div>
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Features</a>
-            <a href="#security" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Security</a>
-            <a href="#blockchain" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Blockchain</a>
-            <a href="#docs" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">Docs</a>
-          </div>
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" className="text-gray-600 hover:text-blue-600 hover:bg-blue-50 font-medium">
-              Sign In
-            </Button>
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/20">
-              Get Started
-            </Button>
+
+          {/* Auth Buttons */}
+          <div className="flex items-center gap-2 sm:gap-3 lg:gap-4">
+            <Link to={PARTIAL_PATHS.LOGIN}>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                className="text-gray-600 hover:text-blue-600 hover:bg-blue-50 font-medium text-xs sm:text-sm px-3 sm:px-4"
+              >
+                Sign In
+              </Button>
+            </Link>
+            <Link to={PARTIAL_PATHS.REGISTER}>
+              <Button 
+                size="sm"
+                className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/20 text-xs sm:text-sm px-3 sm:px-4"
+              >
+                <span className="hidden sm:inline">Get Started</span>
+                <span className="sm:hidden">Sing up</span>
+              </Button>
+            </Link>
           </div>
         </div>
       </motion.nav>
@@ -118,30 +166,30 @@ export default function CryptoVaultHomePage() {
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
             <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-lg px-8 shadow-xl shadow-blue-600/20 transition-transform hover:-translate-y-1">
+              <Link to={PARTIAL_PATHS.REGISTER}>Upload Your First File</Link>
               <Upload className="w-5 h-5 mr-2" />
-              Upload Your First File
             </Button>
             <Button size="lg" variant="outline" className="border-gray-200 text-gray-700 hover:bg-gray-50 text-lg px-8 shadow-sm hover:border-gray-300">
+              <Link to={docsUrl} target='_blank'>View API Documentation</Link>
               <BookOpen className="w-5 h-5 mr-2" />
-              View Documentation
             </Button>
           </motion.div>
 
           <motion.div 
             variants={fadeInUp}
-            className="mt-16 grid grid-cols-3 gap-8 max-w-2xl mx-auto"
+            className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl w-3/4 md:w-fit mx-auto"
           >
             <div className="text-center p-4 rounded-2xl bg-white shadow-sm border border-gray-100">
-              <div className="text-3xl font-bold text-gray-900 mb-2">256-bit</div>
-              <div className="text-sm text-gray-500 font-medium">AES-GCM Encryption</div>
+              <div className="text-xl md:text-2xl font-bold text-gray-900 mb-2">256-bit</div>
+              <div className="text-sm md:text-base text-gray-500 font-medium">AES-GCM Encryption</div>
             </div>
             <div className="text-center p-4 rounded-2xl bg-white shadow-sm border border-gray-100">
-              <div className="text-3xl font-bold text-gray-900 mb-2">2 Chains</div>
-              <div className="text-sm text-gray-500 font-medium">Ethereum & Polygon</div>
+              <div className="text-xl md:text-2xl font-bold text-gray-900 mb-2">2 Chains</div>
+              <div className="text-sm md:text-base text-gray-500 font-medium">Ethereum & Polygon</div>
             </div>
             <div className="text-center p-4 rounded-2xl bg-white shadow-sm border border-gray-100">
-              <div className="text-3xl font-bold text-gray-900 mb-2">100%</div>
-              <div className="text-sm text-gray-500 font-medium">Client-Side Keys</div>
+              <div className="text-xl md:text-2xl font-bold text-gray-900 mb-2">100%</div>
+              <div className="text-sm md:text-base text-gray-500 font-medium">Client-Side Keys</div>
             </div>
           </motion.div>
         </motion.div>
@@ -433,7 +481,7 @@ export default function CryptoVaultHomePage() {
                     size="lg" 
                     className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-8 shadow-lg transform transition-all duration-200 hover:scale-105 hover:shadow-xl"
                   >
-                    Get Started Free
+                    <Link to={PARTIAL_PATHS.REGISTER}>Get Started Free</Link>
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
                   <Button 
@@ -442,7 +490,7 @@ export default function CryptoVaultHomePage() {
                     className="bg-transparent border-2 border-white text-white hover:bg-white/10 text-lg px-8 backdrop-blur-sm transform transition-all duration-200 hover:scale-105 hover:text-white"
                   >
                     <Github className="w-5 h-5 mr-2" />
-                    View on GitHub
+                    <a href={githubUrl} target='_blank'>View on GitHub</a>
                   </Button>
                 </div>
               </CardContent>
@@ -454,53 +502,40 @@ export default function CryptoVaultHomePage() {
       {/* Footer */}
       <footer className="border-t border-gray-200 bg-white py-12">
         <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
+          <div className="grid grid-cols-1 align-center md:grid-cols-2 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <Shield className="w-6 h-6 text-blue-600" />
                 <span className="text-xl font-bold text-gray-900 font-mono">CryptoVault</span>
               </div>
-              <p className="text-gray-500 text-sm leading-relaxed">
-                Zero-knowledge encrypted storage with blockchain verification
+              <p className="text-gray-500 text-sm leading-relaxed mb-5">
+                Zero-knowledge encrypted storage with blockchain verification.
               </p>
+              <div>
+                <Link to={rosettaUrl}>
+                  <img src={LogoRoseta} alt="Logo Rosetta" className='h-6 mb-4' /> 
+                </Link>
+              </div>
+                <p className="text-gray-500 text-sm">Developed by Rosetta.</p>
             </div>
             <div>
-              <h3 className="text-gray-900 font-bold mb-4">Product</h3>
+              <h3 className="text-gray-900 font-bold mb-4">More Informations</h3>
               <ul className="space-y-2 text-gray-500 text-sm">
-                <li><a href="#" className="hover:text-blue-600 transition-colors">Features</a></li>
-                <li><a href="#" className="hover:text-blue-600 transition-colors">Pricing</a></li>
-                <li><a href="#" className="hover:text-blue-600 transition-colors">Security</a></li>
-                <li><a href="#" className="hover:text-blue-600 transition-colors">API</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-gray-900 font-bold mb-4">Resources</h3>
-              <ul className="space-y-2 text-gray-500 text-sm">
-                <li><a href="#" className="hover:text-blue-600 transition-colors">Documentation</a></li>
-                <li><a href="#" className="hover:text-blue-600 transition-colors">Guides</a></li>
-                <li><a href="#" className="hover:text-blue-600 transition-colors">Blog</a></li>
-                <li><a href="#" className="hover:text-blue-600 transition-colors">Support</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-gray-900 font-bold mb-4">Company</h3>
-              <ul className="space-y-2 text-gray-500 text-sm">
-                <li><a href="#" className="hover:text-blue-600 transition-colors">About</a></li>
-                <li><a href="#" className="hover:text-blue-600 transition-colors">Privacy</a></li>
-                <li><a href="#" className="hover:text-blue-600 transition-colors">Terms</a></li>
-                <li><a href="#" className="hover:text-blue-600 transition-colors">Contact</a></li>
+                <li><a href={rosettaUrl} target='_blank' className="hover:text-blue-600 transition-colors">Contact</a></li>
+                <li><a href={docsUrl} target='_blank' className="hover:text-blue-600 transition-colors">API Documentation</a></li>
+                <li><TermsOfUseDialog className='h-5 hover:text-blue-600 hover:no-underline transition-colors text-gray-500 p-0 font-normal'/></li>    
               </ul>
             </div>
           </div>
           <div className="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-sm">
-              © 2026 CryptoVault. All rights reserved.
+              © 2026 CryptoVault & Rosetta. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
-              <a href="#" className="text-gray-400 hover:text-gray-900 transition-colors">
+              <a href={githubUrl} target='_blank' className="text-gray-400 hover:text-gray-900 transition-colors">
                 <Github className="w-5 h-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-gray-900 transition-colors">
+              <a href={docsUrl} target='_blank' className="text-gray-400 hover:text-gray-900 transition-colors">
                 <FileText className="w-5 h-5" />
               </a>
             </div>
