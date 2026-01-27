@@ -1,6 +1,5 @@
 import "./App.css";
 import PublicRoutes from "@/routes/PublicRoutes";
-import Message from "./components/Message/Message";
 import PrivateRoutes from "@/routes/PrivateRoutes";
 import { MessageProvider } from "./contexts/MessageContext";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -12,7 +11,6 @@ function App() {
     <BrowserRouter>
       <MessageProvider>
         <Toaster position="top-center" />
-        <Message />
         <Routes>
           <Route path="/*" element={<PublicRoutes />} />
           <Route path="/app/*" element={<PrivateRoutes />} />
