@@ -3,11 +3,12 @@ import { Link } from "react-router-dom";
 import { Button } from "@headlessui/react";
 import { useLogin } from "@/hooks/useLogin";
 import { COMPLETE_PATHS } from "@/routes/paths";
+import { Spinner } from "@/components/ui/spinner";
 import InputWithLabel from "../components/InputWithLabel/InputWithLabel";
 
 
 export const LoginPage = () => {
-  const { doLogin } = useLogin(); // loadingLogin is not used
+  const { doLogin, loadingLogin } = useLogin();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -62,8 +63,8 @@ export const LoginPage = () => {
             </Link>
           </span>
         </div>
-        <Button type="submit" className="submit-btn">
-          Sign in
+        <Button type="submit" className="submit-btn" disabled={loadingLogin}>
+          {loadingLogin ? <Spinner /> : "Sign in"}
         </Button>
       </form>
     </main>
