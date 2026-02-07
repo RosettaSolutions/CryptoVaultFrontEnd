@@ -1,16 +1,17 @@
-import InputWithLabel from "../components/InputWithLabel/InputWithLabel";
-import { Button } from "@headlessui/react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Button } from "@headlessui/react";
+import { COMPLETE_PATHS } from "../routes/paths";
+import { Spinner } from "@/components/ui/spinner";
 import { useRegisterUser } from "../hooks/useRegisterUser";
-import { COMPLETE_PATHS } from "../routes/paths"; 
 import { TermsOfUseDialog } from "../components/TermsOfUseDialog";
+import InputWithLabel from "../components/InputWithLabel/InputWithLabel";
 
 const RegisterPage = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { registerNewUser } = useRegisterUser();
+  const { registerNewUser, loading } = useRegisterUser();
 
   return (
     <main className="w-screen h-screen flex  items-center justify-center flex-col">
@@ -61,8 +62,8 @@ const RegisterPage = () => {
           By signing up, you agree to our{" "}
           <TermsOfUseDialog className="text-sm cursor-pointer font-mono font-semibold text-sky-400 underline underline-offset-auto p-0"  />
         </span>
-        <Button type="submit" className="submit-btn">
-          Sign up
+        <Button type="submit" className="submit-btn" disabled={loading}>
+          {loading ? <Spinner /> : "Sign up"}
         </Button>
       </form>
     </main>
