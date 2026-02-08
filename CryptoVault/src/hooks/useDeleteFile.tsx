@@ -1,6 +1,7 @@
+import { useState } from "react";
+import { AxiosError } from "axios";
 import { useAuth } from "../contexts/AuthContext";
 import { deleteFile } from "../services/deleteFile";
-import { useState } from "react";
 import { useMessage } from "../contexts/MessageContext";
 
 export function useDeleteFile() {
@@ -25,6 +26,12 @@ export function useDeleteFile() {
       }
     } catch (err) {
       setError(err as Error);
+      if (err instanceof AxiosError) {
+        newMessage({
+          messageType: "error",
+          message: err.response?.data.error || "Error deleting file.",
+        });
+      }
     } finally {
       setLoading(false);
     }
