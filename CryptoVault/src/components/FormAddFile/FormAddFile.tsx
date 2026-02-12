@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMessage } from "../../contexts/MessageContext";
 import { COMPLETE_PATHS } from "@/routes/paths";
+import { Spinner } from "../ui/spinner";
+
 
 type Props = {
   showForm: boolean;
@@ -17,7 +19,7 @@ type Props = {
 };
 
 const FormAddFile = ({ showForm, setShowForm }: Props) => {
-  const { encrypt, responseData } = useEncryptFile();
+  const { encrypt, responseData, loading } = useEncryptFile();
   const { newMessage } = useMessage();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const navigate = useNavigate();
@@ -108,8 +110,8 @@ const FormAddFile = ({ showForm, setShowForm }: Props) => {
               />
             </div>
             <div className="flex justify-center">
-              <Button type="submit" className="submit-btn">
-                Encrypt file
+              <Button type="submit" className="submit-btn" disabled={loading}>
+                {loading ? <Spinner /> : "Encrypt file"}
               </Button>
             </div>
           </form>
