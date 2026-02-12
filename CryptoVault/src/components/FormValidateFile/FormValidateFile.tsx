@@ -27,6 +27,7 @@ const FormValidateFile = ({ validate, setStateValidation }: Props) => {
   const { filesList } = useGetFilesList();
   const [fileId, setFileId] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const hasFilesInBlockchain = filesList?.files?.some((file) => file.in_blockchain) ?? false;
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
@@ -106,13 +107,18 @@ const FormValidateFile = ({ validate, setStateValidation }: Props) => {
                 <SelectValue placeholder="Select a file ID" />
               </SelectTrigger>
               <SelectContent>
-                {filesList?.files
+                {hasFilesInBlockchain && filesList ? (filesList.files
                   ?.filter((file) => file.in_blockchain)
                   .map((file: EncryptedFilesList["files"][0]) => (
                     <SelectItem key={file.file_id} value={String(file.file_id)}>
                       {file.file_id} - {file.refered_file}
                     </SelectItem>
-                  ))}
+                  )))
+                  : (
+                    <SelectItem value="no-files" disabled>
+                      No files registered in blockchain
+                    </SelectItem>
+                  )}
               </SelectContent>
             </Select>
           </div>

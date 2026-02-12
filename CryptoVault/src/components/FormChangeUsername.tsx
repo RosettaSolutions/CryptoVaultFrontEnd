@@ -42,11 +42,11 @@ export function FormChangeUsername() {
               <CardContent className="grid gap-6">
                 <div className="grid gap-3">
                   <Label htmlFor="new-username">New Username</Label>
-                  <Input id="new-username" placeholder="Type your new username" onChange={(e) => setNewUsername(e.target.value)} />
+                  <Input id="new-username" autoComplete="new-username" placeholder="Type your new username" onChange={(e) => setNewUsername(e.target.value)} />
                 </div>
                 <div className="grid gap-3">
                   <Label htmlFor="password">Password</Label>
-                  <Input id="password" type="password" placeholder="Type your password" onChange={(e) => setPassword(e.target.value)} />
+                  <Input id="password" type="password" autoComplete="password" placeholder="Type your password" onChange={(e) => setPassword(e.target.value)} />
                 </div>
               </CardContent>
               <CardFooter>

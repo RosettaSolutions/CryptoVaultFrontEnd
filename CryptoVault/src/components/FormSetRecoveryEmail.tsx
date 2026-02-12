@@ -42,11 +42,11 @@ export function FormSetRecoveryEmail() {
                 <CardContent className="grid gap-6">
                   <div className="grid gap-3">
                     <Label htmlFor="recovery-email">Recovery E-mail</Label>
-                    <Input id="recovery-email" type="email" placeholder="Type your new recovery e-mail" value={newRecoveryEmail} onChange={(e) => setNewRecoveryEmail(e.target.value)}/>
+                    <Input id="recovery-email" type="email" autoComplete="recovery-email" placeholder="Type your new recovery e-mail" value={newRecoveryEmail} onChange={(e) => setNewRecoveryEmail(e.target.value)}/>
                   </div>
                   <div className="grid gap-3">
                     <Label htmlFor="password">Password</Label>
-                    <Input id="password" type="password" placeholder="Type your password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                    <Input id="password" type="password" autoComplete="password" placeholder="Type your password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                   </div>
                 </CardContent>
                 <CardFooter>

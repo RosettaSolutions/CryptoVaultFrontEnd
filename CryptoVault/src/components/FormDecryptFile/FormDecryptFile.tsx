@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { Spinner } from "../ui/spinner";
 
 const FormDecryptFile = () => {
   const { newMessage } = useMessage();
@@ -24,7 +25,7 @@ const FormDecryptFile = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [decryptionKey, setDecryptionKey] = useState("");
 
-  const { decrypt } = useDecryptFile();
+  const { decrypt, loading } = useDecryptFile();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -92,11 +93,15 @@ const FormDecryptFile = () => {
                 <SelectValue placeholder="Select a file ID" />
               </SelectTrigger>
               <SelectContent>
-                {filesList?.files.map((file: EncryptedFilesList["files"][0]) => (
+                {filesList && filesList.total > 0 ? filesList.files.map((file: EncryptedFilesList["files"][0]) => (
                     <SelectItem key={file.file_id} value={String(file.file_id)}>
                       {file.file_id} - {file.refered_file}
                     </SelectItem>
-                  ))}
+                  )) : (
+                    <SelectItem value="none" disabled>
+                      No files found
+                    </SelectItem>
+                  )}
               </SelectContent>
             </Select>
           </div>
@@ -139,8 +144,8 @@ const FormDecryptFile = () => {
           </div>
 
           <div className="flex justify-center pt-2">
-            <Button type="submit" className="mt-0">
-              Decrypt file
+            <Button type="submit" className="mt-0" disabled={loading}>
+              { loading ? <Spinner /> : "Decrypt file"}
             </Button>
           </div>
         </form>
