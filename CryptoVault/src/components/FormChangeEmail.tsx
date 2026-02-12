@@ -42,11 +42,11 @@ export function FormChangeEmail() {
               <CardContent className="grid gap-6">
                 <div className="grid gap-3">
                   <Label htmlFor="new-email">New E-mail</Label>
-                  <Input id="new-email" type="email" placeholder="Type your new e-mail" value={newEmail} onChange={(e) => setNewEmail(e.target.value)}/>
+                  <Input id="new-email" type="email" autoComplete="new-email" placeholder="Type your new e-mail" value={newEmail} onChange={(e) => setNewEmail(e.target.value)}/>
                 </div>
                 <div className="grid gap-3">
                   <Label htmlFor="password">Password</Label>
-                  <Input id="password" type="password" placeholder="Type your password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                  <Input id="password" type="password" autoComplete="password" placeholder="Type your password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                 </div>
               </CardContent>
               <CardFooter>
