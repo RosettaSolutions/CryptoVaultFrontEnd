@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Disallow authenticated/private application pages
+Disallow: /app/
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /verify-email/
+Disallow: /reset-password/
+
+# Sitemap location
+Sitemap: https://cryptovault.rosetta-solutions.com/sitemap.xml
