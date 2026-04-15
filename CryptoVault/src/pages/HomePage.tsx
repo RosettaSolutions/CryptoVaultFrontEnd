@@ -54,8 +54,8 @@ export default function CryptoVaultHomePage() {
       >
         <div className="container mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <Shield className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
+          <Link to="/" className="flex items-center gap-2" aria-label="CryptoVault Home">
+            <Shield className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" aria-hidden="true" />
             <span className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 font-mono">
               CryptoVault
             </span>
@@ -83,6 +83,8 @@ export default function CryptoVaultHomePage() {
             </a>
             <a 
               href={docsUrl} 
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-gray-600 hover:text-blue-600 transition-colors font-medium text-sm xl:text-base"
             >
               Docs
@@ -91,30 +93,30 @@ export default function CryptoVaultHomePage() {
 
           {/* Auth Buttons */}
           <div className="flex items-center gap-2 sm:gap-3 lg:gap-4">
-            <Link to={PARTIAL_PATHS.LOGIN}>
-              <Button 
-                variant="ghost" 
-                size="sm"
-                className="text-gray-600 hover:text-blue-600 hover:bg-blue-50 font-medium text-xs sm:text-sm px-3 sm:px-4"
-              >
-                Sign In
-              </Button>
-            </Link>
-            <Link to={PARTIAL_PATHS.REGISTER}>
-              <Button 
-                size="sm"
-                className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/20 text-xs sm:text-sm px-3 sm:px-4"
-              >
+            <Button 
+              asChild
+              variant="ghost" 
+              size="sm"
+              className="text-gray-600 hover:text-blue-600 hover:bg-blue-50 font-medium text-xs sm:text-sm px-3 sm:px-4"
+            >
+              <Link to={PARTIAL_PATHS.LOGIN}>Sign In</Link>
+            </Button>
+            <Button 
+              asChild
+              size="sm"
+              className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/20 text-xs sm:text-sm px-3 sm:px-4"
+            >
+              <Link to={PARTIAL_PATHS.REGISTER}>
                 <span className="hidden sm:inline">Get Started</span>
-                <span className="sm:hidden">Sing up</span>
-              </Button>
-            </Link>
+                <span className="sm:hidden">Sign up</span>
+              </Link>
+            </Button>
           </div>
         </div>
       </motion.nav>
 
-      {/* Hero Section */}
-      <section className="container mx-auto px-6 py-24 md:py-32 relative overflow-hidden">
+      <main>
+        <section className="container mx-auto px-6 py-12 min-h-[calc(100vh-65px)] flex items-center relative overflow-hidden">
         {/* Background decorative elements */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl -z-10 opacity-30 pointer-events-none">
             <div className="absolute top-20 left-20 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
@@ -130,7 +132,7 @@ export default function CryptoVaultHomePage() {
         >
           <motion.div variants={fadeInUp} className="mb-6 flex justify-center">
             <Badge className="bg-blue-50 text-blue-700 border-blue-200 px-4 py-2 text-sm font-medium shadow-sm">
-              <Lock className="w-3 h-3 mr-2 inline" />
+              <Lock className="w-3 h-3 mr-2 inline" aria-hidden="true" />
               Zero-Knowledge Architecture
             </Badge>
           </motion.div>
@@ -145,7 +147,7 @@ export default function CryptoVaultHomePage() {
               animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
               transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
               style={{ backgroundSize: "200% auto" }}
-              className="bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 bg-clip-text text-transparent inline-block"
+              className="bg-linear-to-r from-blue-600 via-cyan-500 to-blue-600 bg-clip-text text-transparent inline-block"
             >
               Your Keys.
             </motion.span>
@@ -153,46 +155,57 @@ export default function CryptoVaultHomePage() {
             Your Control.
           </motion.h1>
           
-          <motion.p 
+          <motion.p
             variants={fadeInUp}
             className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed"
           >
-            End-to-end encrypted file storage with blockchain verification. 
+            End-to-end encrypted file storage with blockchain verification.
             AES-GCM encryption meets Ethereum & Polygon for ultimate security and transparency.
           </motion.p>
-          
-          <motion.div 
+
+          <motion.div
             variants={fadeInUp}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-lg px-8 shadow-xl shadow-blue-600/20 transition-transform hover:-translate-y-1">
-              <Link to={PARTIAL_PATHS.REGISTER}>Upload Your First File</Link>
-              <Upload className="w-5 h-5 mr-2" />
+            <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700 text-lg px-8 shadow-xl shadow-blue-600/20 transition-transform hover:-translate-y-1">
+              <Link to={PARTIAL_PATHS.REGISTER} className="flex items-center gap-2">
+                <Upload className="w-5 h-5" aria-hidden="true" />
+                Upload Your First File
+              </Link>
             </Button>
-            <Button size="lg" variant="outline" className="border-gray-200 text-gray-700 hover:bg-gray-50 text-lg px-8 shadow-sm hover:border-gray-300">
-              <Link to={docsUrl} target='_blank'>View API Documentation</Link>
-              <BookOpen className="w-5 h-5 mr-2" />
+            <Button asChild size="lg" variant="outline" className="border-gray-200 text-gray-700 hover:bg-gray-50 text-lg px-8 shadow-sm hover:border-gray-300">
+              <a href={docsUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                <BookOpen className="w-5 h-5" aria-hidden="true" />
+                View API Documentation
+              </a>
             </Button>
-          </motion.div>
-
-          <motion.div 
-            variants={fadeInUp}
-            className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl w-3/4 md:w-fit mx-auto"
-          >
-            <div className="text-center p-4 rounded-2xl bg-white shadow-sm border border-gray-100">
-              <div className="text-xl md:text-2xl font-bold text-gray-900 mb-2">256-bit</div>
-              <div className="text-sm md:text-base text-gray-500 font-medium">AES-GCM Encryption</div>
-            </div>
-            <div className="text-center p-4 rounded-2xl bg-white shadow-sm border border-gray-100">
-              <div className="text-xl md:text-2xl font-bold text-gray-900 mb-2">2 Chains</div>
-              <div className="text-sm md:text-base text-gray-500 font-medium">Ethereum & Polygon</div>
-            </div>
-            <div className="text-center p-4 rounded-2xl bg-white shadow-sm border border-gray-100">
-              <div className="text-xl md:text-2xl font-bold text-gray-900 mb-2">100%</div>
-              <div className="text-sm md:text-base text-gray-500 font-medium">Client-Side Keys</div>
-            </div>
           </motion.div>
         </motion.div>
+      </section>
+
+      <section className="py-16 bg-white border-y border-gray-100">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-4xl mx-auto"
+          >
+            <motion.div variants={fadeInUp} className="text-center p-6 rounded-2xl bg-white shadow-sm border border-gray-100">
+              <div className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">256-bit</div>
+              <div className="text-sm md:text-base text-gray-500 font-medium">AES-GCM Encryption</div>
+            </motion.div>
+            <motion.div variants={fadeInUp} className="text-center p-6 rounded-2xl bg-white shadow-sm border border-gray-100">
+              <div className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">2 Chains</div>
+              <div className="text-sm md:text-base text-gray-500 font-medium">Ethereum & Polygon</div>
+            </motion.div>
+            <motion.div variants={fadeInUp} className="text-center p-6 rounded-2xl bg-white shadow-sm border border-gray-100">
+              <div className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">100%</div>
+              <div className="text-sm md:text-base text-gray-500 font-medium">Client-Side Keys</div>
+            </motion.div>
+          </motion.div>
+        </div>
       </section>
 
       {/* Security First Section */}
@@ -374,7 +387,7 @@ export default function CryptoVaultHomePage() {
           >
             <motion.div variants={fadeInUp} className="text-center mb-16">
               <Badge className="bg-orange-50 text-orange-700 border-orange-200 mb-4 px-4 py-1">
-                <Zap className="w-3 h-3 mr-2 inline" />
+                <Zap className="w-3 h-3 mr-2 inline" aria-hidden="true" />
                 Blockchain Powered
               </Badge>
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
@@ -391,7 +404,7 @@ export default function CryptoVaultHomePage() {
                 whileHover={{ scale: 1.03 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-100 h-full shadow-lg shadow-blue-900/5 hover:shadow-xl hover:shadow-blue-900/10 transition-shadow duration-300">
+                <Card className="bg-linear-to-br from-blue-50 to-indigo-50 border-blue-100 h-full shadow-lg shadow-blue-900/5 hover:shadow-xl hover:shadow-blue-900/10 transition-shadow duration-300">
                   <CardHeader>
                     <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mb-4">
                       <Shield className="w-8 h-8 text-blue-600" />
@@ -410,7 +423,7 @@ export default function CryptoVaultHomePage() {
                         "Public audit capability"
                       ].map((item, i) => (
                         <li key={i} className="flex items-center text-gray-700 font-medium">
-                          <CheckCircle2 className="w-5 h-5 text-emerald-500 mr-3 flex-shrink-0" />
+                          <CheckCircle2 className="w-5 h-5 text-emerald-500 mr-3 shrink-0" />
                           {item}
                         </li>
                       ))}
@@ -424,7 +437,7 @@ export default function CryptoVaultHomePage() {
                 whileHover={{ scale: 1.03 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <Card className="bg-gradient-to-br from-purple-50 to-pink-50 border-purple-100 h-full shadow-lg shadow-purple-900/5 hover:shadow-xl hover:shadow-purple-900/10 transition-shadow duration-300">
+                <Card className="bg-linear-to-br from-purple-50 to-pink-50 border-purple-100 h-full shadow-lg shadow-purple-900/5 hover:shadow-xl hover:shadow-purple-900/10 transition-shadow duration-300">
                   <CardHeader>
                     <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mb-4">
                       <Wallet className="w-8 h-8 text-purple-600" />
@@ -467,7 +480,7 @@ export default function CryptoVaultHomePage() {
             variants={fadeInUp}
             className="max-w-4xl mx-auto"
           >
-            <Card className="bg-gradient-to-r from-blue-600 to-cyan-500 border-0 overflow-hidden relative shadow-2xl shadow-blue-500/20">
+            <Card className="bg-linear-to-r from-blue-600 to-cyan-500 border-0 overflow-hidden relative shadow-2xl shadow-blue-500/20">
               <div className="absolute inset-0 bg-grid-white/10" />
               <CardContent className="relative p-12 md:p-16 text-center">
                 <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
@@ -478,19 +491,25 @@ export default function CryptoVaultHomePage() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button 
+                    asChild
                     size="lg" 
                     className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-8 shadow-lg transform transition-all duration-200 hover:scale-105 hover:shadow-xl"
                   >
-                    <Link to={PARTIAL_PATHS.REGISTER}>Get Started Free</Link>
-                    <ArrowRight className="w-5 h-5 ml-2" />
+                    <Link to={PARTIAL_PATHS.REGISTER} className="flex items-center">
+                      Get Started Free
+                      <ArrowRight className="w-5 h-5 ml-2" aria-hidden="true" />
+                    </Link>
                   </Button>
                   <Button 
+                    asChild
                     size="lg" 
                     variant="outline" 
                     className="bg-transparent border-2 border-white text-white hover:bg-white/10 text-lg px-8 backdrop-blur-sm transform transition-all duration-200 hover:scale-105 hover:text-white"
                   >
-                    <Github className="w-5 h-5 mr-2" />
-                    <a href={githubUrl} target='_blank'>View on GitHub</a>
+                    <a href={githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center">
+                      <Github className="w-5 h-5 mr-2" aria-hidden="true" />
+                      View on GitHub
+                    </a>
                   </Button>
                 </div>
               </CardContent>
@@ -498,6 +517,7 @@ export default function CryptoVaultHomePage() {
           </motion.div>
         </div>
       </section>
+      </main>
 
       {/* Footer */}
       <footer className="border-t border-gray-200 bg-white py-12">
@@ -532,11 +552,11 @@ export default function CryptoVaultHomePage() {
               © 2026 CryptoVault & Rosetta. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
-              <a href={githubUrl} target='_blank' className="text-gray-400 hover:text-gray-900 transition-colors">
-                <Github className="w-5 h-5" />
+              <a href={githubUrl} target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository" className="text-gray-400 hover:text-gray-900 transition-colors">
+                <Github className="w-5 h-5" aria-hidden="true" />
               </a>
-              <a href={docsUrl} target='_blank' className="text-gray-400 hover:text-gray-900 transition-colors">
-                <FileText className="w-5 h-5" />
+              <a href={docsUrl} target="_blank" rel="noopener noreferrer" aria-label="API Documentation" className="text-gray-400 hover:text-gray-900 transition-colors">
+                <FileText className="w-5 h-5" aria-hidden="true" />
               </a>
             </div>
           </div>
