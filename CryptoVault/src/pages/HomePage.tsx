@@ -21,6 +21,7 @@ import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import { PARTIAL_PATHS } from '@/routes/paths';
 import { TermsOfUseDialog } from '@/components/TermsOfUseDialog';
+import { ParticleNetwork } from '@/components/ParticleNetwork';
 import LogoRoseta from '@/assets/LogoRosettaWithNameV3.svg';
 
 
@@ -116,19 +117,24 @@ export default function CryptoVaultHomePage() {
       </motion.nav>
 
       <main>
-        <section className="container mx-auto px-6 py-12 min-h-[calc(100vh-65px)] flex items-center relative overflow-hidden">
-        {/* Background decorative elements */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl -z-10 opacity-30 pointer-events-none">
-            <div className="absolute top-20 left-20 w-72 h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
-            <div className="absolute top-20 right-20 w-72 h-72 bg-cyan-400 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
-            <div className="absolute -bottom-8 left-1/2 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
+        <section className="px-6 py-12 min-h-[calc(100vh-65px)] flex items-center relative overflow-hidden isolate">
+        <div
+          className="absolute inset-0 z-1"
+          style={{
+            maskImage:
+              'radial-gradient(ellipse 640px 380px at center, transparent 35%, rgba(0,0,0,0.6) 65%, black 85%)',
+            WebkitMaskImage:
+              'radial-gradient(ellipse 640px 380px at center, transparent 35%, rgba(0,0,0,0.6) 65%, black 85%)',
+          }}
+        >
+          <ParticleNetwork />
         </div>
 
         <motion.div
           initial="initial"
           animate="animate"
           variants={staggerContainer}
-          className="max-w-4xl mx-auto text-center"
+          className="container mx-auto max-w-4xl text-center relative z-10"
         >
           <motion.div variants={fadeInUp} className="mb-6 flex justify-center">
             <Badge className="bg-blue-50 text-blue-700 border-blue-200 px-4 py-2 text-sm font-medium shadow-sm">
@@ -183,7 +189,7 @@ export default function CryptoVaultHomePage() {
         </motion.div>
       </section>
 
-      <section className="py-16 bg-white border-y border-gray-100">
+      <section className="py-16 bg-white/80 border-y border-gray-100">
         <div className="container mx-auto px-6">
           <motion.div
             initial="initial"
